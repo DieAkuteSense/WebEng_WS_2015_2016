@@ -1,0 +1,45 @@
+table {
+    width: 90%;
+    margin: auto;
+}
+
+table td, table th {
+    padding: 2px 10px;
+    border: 1px solid #bbbbbb;
+}
+
+table th {
+    background-color: #31d0ff;
+    color: #fff;
+}
+
+table tr:nth-child(1n+2) {
+    background-color: #d8d8d8;
+    color: #000;
+}
+
+table tr:nth-child(2n+3) {
+    background-color: #9d9d9d;
+    color: #000;
+}
+
+table tr:hover {
+    background-color: #1daed9;
+    color: #fff;
+}
+
+caption {
+    font-size: 25px;
+}
+
+#name {
+    width: 40%;
+}
+
+#edit {
+    width: 10%;
+}
+
+#editTd {
+    text-align: center;
+}

@@ -1,0 +1,38 @@
+div {
+    width: 80%;
+    margin: auto;
+    background-color: #ddd;
+    box-shadow: 3px 3px 3px #ddd;
+    margin-top: 20px;
+    padding-top: 20px; 
+    padding-bottom: 20px;   
+    font-family: sans-serif;
+}
+
+textarea {
+    margin-left: 5%;
+    width: 90%;
+    height: 250px;
+    font-size: 16px;
+}
+
+button {
+    width: 50%;
+    float: left;
+    font-size: 16px;  
+    margin-left: 25%;
+}
+
+p {
+    margin-left: 5%;
+}
+
+.button {
+    width: 50%;
+    float: left;
+}
+
+.button > a > button {
+    width: 50%;
+    margin-left: 25%;
+}

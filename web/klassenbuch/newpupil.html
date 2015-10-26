@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+    
+    <title>Sch&uuml;ler anlegen</title>
+    
+    <link rel="stylesheet" type="text/css" href="nav.css" />
+    <link rel="stylesheet" type="text/css" href="newandchange.css" />
+    <meta charset="utf-8" />
+    <meta lang="de" />
+    <script src="angular.js"></script>
+    <script src="ngStorage.js"></script>
+    
+    <script>
+        angular.module("newPupil", ["ngStorage"])
+        .controller("Controller", function($localStorage, $filter) {
+            var newPupilCtrl = this;
+            
+            var login = window.localStorage.login;
+            if(!login) {
+                window.document.location.href="../index.html";
+            }
+        
+            newPupilCtrl.logout = function() {
+                window.localStorage.removeItem('login');
+                window.document.location.href = "logout.html";
+            }
+            
+            newPupilCtrl.classes = $localStorage.classes;
+                    
+            /*
+            *   Saving a new pupil
+            */
+            newPupilCtrl.addPupil = function() {
+                // Array containing all values from localStorage
+                newPupilCtrl.pupils = $localStorage.pupils;
+                newPupilCtrl.pupils.push(
+                    {name:newPupilCtrl.newName,
+                    prename:newPupilCtrl.newPrename,
+                    role:'pupil',
+                    classNr:newPupilCtrl.newClassNr,}
+                )
+                // Reset input fields
+                newPupilCtrl.newName = '';
+                newPupilCtrl.newPrename = '';
+
+                // Save new array to localStorage
+                $localStorage.pupils = newPupilCtrl.pupils;
+            }    
+        });
+    </script>
+    
+</head>
+    
+<body ng-app="newPupil" ng-controller="Controller as newPupilCtrl">
+    <nav>
+        <ul>
+            <li>
+                <form id="navtitle">Klassenbuch</form>
+            </li>
+            <li>
+                <a href="mainmenu.html">Hauptmenü</a>
+            </li>
+            <li>
+                <a href="#">Schüler</a>
+                <ul>
+                    <li><a href="showpupil.html">Anzeigen</a></li>
+                    <li><a href="#">Anlegen</a></li>
+                </ul>
+            </li> 
+           <li>
+                <a href="#">Lehrer</a>
+                <ul>
+                    <li><a href="showteacher.html">Anzeigen</a></li>
+                    <li><a href="newteacher.html">Anlegen</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Klassen</a>
+                <ul>
+                    <li><a href="showclass.html">Anzeigen</a></li>
+                    <li><a href="newclass.html">Anlegen</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" ng-click="newPupilCtrl.logout()">Logout</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div id="image">
+        <img src="platzhalter.jpg" height="100%" width="100%" />
+    </div>
+    <div id="description">
+        <h1>Schüler anlegen</h1>
+        <form ng-submit="newPupilCtrl.addPupil()">
+            <input type="text" placeholder="Nachname" ng-model="newPupilCtrl.newName" required />
+            <input type="text" placeholder="Vorname" ng-model="newPupilCtrl.newPrename" /><br /><br />
+            <select ng-model="newPupilCtrl.newClassNr">
+                <option ng-repeat="x in newPupilCtrl.classes">{{x.classNr}}</option>
+            </select>
+            <input class="btn-primary" type="submit" value="Speichern" />
+        </form>
+        <br />
+        <br />
+        
+        <label>Bild auswählen:&nbsp;</label>
+        <input type="file" />
+        
+        <br />
+        
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+html {
+    height: 100%;
+    background: linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -moz-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -webkit-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -ms-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -o-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background-attachment: fixed;
+}
+
+h1 {
+    width: 50%;
+    text-align: center;
+    margin: auto;
+}
+
+form {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+fieldset {
+    text-align: center;  
+}
+
+button {
+    width: 20%;
+    font-size: 16px;   
+}
+
+div {
+    margin: 20px auto;
+    background-color: #ddd;
+    box-shadow: 3px 3px 3px #ddd;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 90%;
+}
+
+#login {
+    width: 60%;
+}
+
+body {
+   font-family: sans-serif;
+}
+
+label {
+    text-align: right;
+    display: block;
+    width: 25%;
+    height: 25px;
+    font-size: 16px;
+    float: left;
+}
+
+input {
+    height: 25px;
+    width: 40%;
+    margin-left: 20%;
+    font-size: 16px;
+}
+
+
+#inside {
+    width: 45%;
+    margin: auto;  
+    text-align: center;
+}

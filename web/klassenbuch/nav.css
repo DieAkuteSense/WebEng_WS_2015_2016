@@ -1,0 +1,112 @@
+html {
+    height: 100%;
+    background: linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -moz-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -webkit-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -ms-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -o-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);   
+    background-attachment: fixed;
+}
+
+body { 
+    font-size: 16px; 
+    font-family: sans-serif;
+    padding-bottom: 20px;
+}
+
+#navtitle {
+    font-weight: bold;
+    font-family: sans-serif;
+    padding: 14px 34px 14px 34px;
+    color: #333;
+}
+
+#navsearch {
+    text-decoration: none;
+    display: block;
+    color: #333;
+    padding: 14px 34px 14px 34px;
+    margin-right: 0px;
+}
+
+input {
+    font-size: 16px;   
+}
+
+nav {
+    margin: auto;
+    margin-top: 20px;
+    width: 90%;
+}
+
+nav ul {
+    margin: 0px;
+    padding: 0px;
+    
+    box-shadow: 3px 3px 3px #ddd;
+}
+
+nav ul:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+nav ul, nav ul li {
+    background-color: #ddd;   
+}
+
+nav ul li {
+    list-style: none;
+    float: left;
+    
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #bbbbbb;
+}
+
+nav ul li a {
+    text-decoration: none;
+    display: block;
+    color: #333;
+    padding: 14px 34px 14px 34px;
+    
+    -webkit-transition: background 0.3s ease-out 0s;
+    -moz-transition: background 0.3s ease-out 0s;
+    -o-transition: background 0.3s ease-out 0s;
+    transition: background 0.3s ease-out 0s;
+}
+
+nav ul li:hover a, nav ul li:hover > ul li a  {
+    background-color: #31d0ff;
+}
+
+nav ul li:hover > ul {
+    visibility: visible;
+}
+
+nav ul li ul {
+    display: inline;
+    visibility: hidden;
+    position: absolute;
+    padding: 0px;
+}
+
+nav ul li ul li {
+    float: none;
+}
+
+nav ul li:hover > a {
+    color: #FAFAFA;
+}
+nav ul li ul li a {
+    color: #FAFAFA;
+}
+
+nav ul li ul li a:hover {
+    color: #333;   
+    background-color: #1daed9 !important;
+}

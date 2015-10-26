@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="WebEng_WS_2015_2016">
+    <output-path>$PROJECT_DIR$/out/artifacts/WebEng_WS_2015_2016</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="WebEng_WS_2015_2016/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="WebEng_WS_2015_2016" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="AppEngine API" />
+          <element id="library" level="project" name="AppEngine ORM" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

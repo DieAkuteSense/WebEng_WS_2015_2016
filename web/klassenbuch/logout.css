@@ -1,0 +1,38 @@
+html {
+    height: 100%;
+    background: linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -moz-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -webkit-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -ms-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
+    background: -o-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);  
+    background-attachment: fixed;
+}
+
+h1 {
+    width: 50%;
+    text-align: center;
+    margin: auto;
+}
+
+h2 {
+    width: 30%;
+    text-align: center;
+    margin: auto;
+}
+
+body {
+   font-family: sans-serif;
+}
+
+div {
+    width: 90%;
+    margin: 20px auto;
+    background-color: #ddd;
+    box-shadow: 3px 3px 3px #ddd;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#logouthint {
+    width: 60%;   
+}

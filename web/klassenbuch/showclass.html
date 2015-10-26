@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Klasse anzeigen</title>
+    <link rel="stylesheet" type="text/css" href="nav.css" />
+    <link rel="stylesheet" type="text/css" href="newandchangeclass.css" />
+    <link rel="stylesheet" type="text/css" href="table.css" />
+    <meta charset="utf-8" />
+    <meta lang="de" />
+    <script src="angular.js"></script>
+    <script src="jquery.js"></script>
+    <script src="ngStorage.js"></script>
+    
+    <script>
+        angular.module("schoolClass", ["ngStorage"])
+            .controller("Controller", function ($localStorage, $scope, $filter) {
+                var schoolClassCtrl = this;
+            
+                var login = window.localStorage.login;
+                if(!login) {
+                    window.document.location.href="../index.html";
+                }
+
+                schoolClassCtrl.logout = function() {
+                    window.localStorage.removeItem('login');
+                    window.document.location.href = "logout.html"
+                }
+            
+                schoolClassCtrl.pupils = $localStorage.pupils;
+                schoolClassCtrl.teachers = $localStorage.teachers;
+                schoolClassCtrl.classes = $localStorage.classes;
+                schoolClassCtrl.notes = $localStorage.notes;
+            
+                /*
+                *   Redirect to HTML-Page to show a pupil
+                */
+                schoolClassCtrl.showPupil = function(x) {
+                    schoolClassCtrl.pupil = $filter('filter') (schoolClassCtrl.pupils, schoolClassCtrl.getPupilFilter(x));
+                    var selectedPupil = schoolClassCtrl.pupil;
+                    schoolClassCtrl.noteToPupil = $filter('filter') (schoolClassCtrl.notes, schoolClassCtrl.getActualNotes(selectedPupil[0].name, selectedPupil[0].prename)); 
+                    window.localStorage.pupil = JSON.stringify(schoolClassCtrl.pupil); 
+                    window.localStorage.noteToPupil = JSON.stringify(schoolClassCtrl.noteToPupil);
+                    if(window.localStorage.pupil != null) {
+                        window.location.href = "showpupil.html";
+                    }
+                }
+                
+                schoolClassCtrl.getActualNotes = function(name, prename) {
+                    return function(notes) {
+                        return ((notes.name == name) & (notes.prename == prename));
+                    }
+                }
+                
+                /*
+                *   Setting filter-function for schoolClassCtrl.changePupil()
+                *   returns a function for getting all pupils
+                */
+                schoolClassCtrl.getPupilFilter = function(x) {
+                    return function(pupils) {
+                        return ((pupils.name == x.name) & (pupils.prename == x.prename) & (pupils.role == 'pupil'));
+                    }
+                }
+                
+                /*
+                *   Selecting class to show
+                */
+                schoolClassCtrl.selectClass = function(selectedClass) {
+                    schoolClassCtrl.currentClass = $filter('filter') (schoolClassCtrl.classes, schoolClassCtrl.getCurrentClass(selectedClass.classNr));
+                    schoolClassCtrl.currentPupils = $filter('filter') (schoolClassCtrl.pupils, schoolClassCtrl.getCurrentPupils(selectedClass.classNr));
+                    schoolClassCtrl.currentTeachers = $filter('filter') (schoolClassCtrl.teachers, schoolClassCtrl.getCurrentTeacher(selectedClass.classNr));
+                    schoolClassCtrl.temp =  $filter('filter') (schoolClassCtrl.classes, schoolClassCtrl.getCurrentClass(selectedClass.classNr));
+                    schoolClassCtrl.temp.push(schoolClassCtrl.currentPupils);
+                    schoolClassCtrl.temp.push(schoolClassCtrl.currentTeachers);
+                    window.localStorage.selectedClass = JSON.stringify(schoolClassCtrl.currentClass);
+                }
+                
+                schoolClassCtrl.getCurrentClass = function(classNr) {
+                    return function(classes) {
+                        return ((classes.classNr == classNr) & (classes.role == 'classNr'));
+                    }
+                }
+                
+                schoolClassCtrl.getCurrentPupils = function(classNr) {
+                    return function(pupils) {
+                        return ((pupils.classNr == classNr) & (pupils.role == 'pupil'));
+                    }
+                }
+                
+                schoolClassCtrl.getCurrentTeacher = function(classNr) {
+                    return function(teachers) {
+                        return ((teachers.classNr == classNr) & (teachers.role == 'teacher'));
+                    }
+                }
+            });
+    </script>
+</head>
+
+<body ng-app="schoolClass" ng-controller="Controller as schoolClassCtrl">
+    <nav>
+        <ul>
+            <li>
+                <form id="navtitle">Klassenbuch</form>
+            </li>
+            <li>
+                <a href="mainmenu.html">Hauptmenü</a>
+            </li>
+            <li>
+                <a href="#">Schüler</a>
+                <ul>
+                    <li><a href="showpupil.html">Anzeigen</a></li>
+                    <li><a href="newpupil.html">Anlegen</a></li>
+                </ul>
+            </li> 
+           <li>
+                <a href="#">Lehrer</a>
+                <ul>
+                    <li><a href="showteacher.html">Anzeigen</a></li>
+                    <li><a href="newteacher.html">Anlegen</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Klassen</a>
+                <ul>
+                    <li><a href="#">Anzeigen</a></li>
+                    <li><a href="newclass.html">Anlegen</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" ng-click="schoolClassCtrl.logout()">Logout</a>
+            </li>
+        </ul>
+    </nav>
+    <div id="selector">
+        <h3>
+            <form ng-submit="schoolClassCtrl.selectClass(schoolClassCtrl.selectedClass)">
+                <label>Klasse wählen:</label>
+                <select ng-model="schoolClassCtrl.selectedClass" ng-options="selection.classNr for selection in schoolClassCtrl.classes"></select>
+                <input class="btn-primary" type="submit" value="Auswählen" />
+            </form>
+        </h3>
+    </div>
+    <div>
+        <h1 ng-repeat="x in schoolClassCtrl.currentClass">Klasse {{x.classNr}} <a href="changeclass.html"><img src="edit.png" alt="Bearbeiten" /></a> </h1>
+        <h3 ng-repeat="x in schoolClassCtrl.currentTeachers">Klassenlehrer: {{x.prename + ' ' + x.name}}</h3>
+        <br />
+        <table>
+            <caption>Schüler</caption>
+            <colgroup>
+                <col span="2" id="name">
+                <col id="edit">
+            </colgroup>
+            <tr>
+                <th>Nachname</th>
+                <th>Vorname</th>
+                <th>Anzeigen</th>
+            </tr>
+            <tr ng-repeat="x in schoolClassCtrl.currentPupils">
+                <td>
+                    {{x.name}}
+                </td>
+                <td>
+                    {{x.prename}}
+                </td>
+                <td id="editTd">
+                    <img src="show.png" alt="Schüler anzeigen"  ng-click="schoolClassCtrl.showPupil(x)"/>
+                </td>
+            </tr>  
+        </table>
+        <br />
+        <br />
+    </div>
+</body>
+</html>

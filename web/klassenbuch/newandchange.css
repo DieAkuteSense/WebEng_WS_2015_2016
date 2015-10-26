@@ -1,0 +1,51 @@
+div {
+    background-color: #ddd;
+    box-shadow: 3px 3px 3px #ddd;
+    margin-top: 20px;
+    float: left;
+}
+
+#image {
+    margin-left: 10%;
+    width: 20%;
+    height: auto;
+}
+
+img {
+    -webkit-transition: opacity 0.3s ease-out 0s;
+    -moz-transition: opacity 0.3s ease-out 0s;
+    -o-transition: opacity 0.3s ease-out 0s;
+    transition: opacity 0.3s ease-out 0s;   
+}
+
+img:hover {
+    background-color: aqua;
+    opacity: 0.25;
+}
+
+#description {
+    margin-left: 5%;
+    width: 55%;   
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+select {
+    font-size: 16px;   
+}
+
+button {
+    font-size: 16px;
+    margin-left: 50px;
+    width: 15%;
+}
+
+.button {
+    width: 50%;
+}
+
+.button > a > button {
+    width: 50%;
+    margin-left: 25%;
+}

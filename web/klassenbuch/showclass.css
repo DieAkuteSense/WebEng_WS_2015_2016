@@ -1,0 +1,51 @@
+div {
+    width: 80%;
+    margin: auto;
+    background-color: #ddd;
+    box-shadow: 3px 3px 3px #ddd;
+    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;   
+    font-family: sans-serif;
+}
+
+select {
+    width: 200px;   
+    margin-left: 50px;
+}
+
+h1 {
+    margin-left: 50px; 
+}
+
+p {
+    margin-left: 50px;
+    float: left;
+}
+
+button {
+    margin-left: 50px;
+    font-size: 16px;
+    width: 15%;
+}
+
+.button {
+    width: 50%;
+    float: left;
+}
+
+.button > a > button {
+    width: 50%;
+    margin-left: 25%;
+}
+
+a {
+    height: 37px;
+    vertical-align: middle;
+}
+
+img {
+    margin-left: 30px;
+    height: 36px;
+    vertical-align: middle;
+}

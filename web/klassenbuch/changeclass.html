@@ -1,0 +1,288 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Klasse bearbeiten</title>    
+    <link rel="stylesheet" type="text/css" href="nav.css" />
+    <link rel="stylesheet" type="text/css" href="newandchangeclass.css" />
+    <link rel="stylesheet" type="text/css" href="table.css" />
+    <meta charset="utf-8" />
+    <meta lang="de" />
+    <script src="angular.js"></script>
+    <script src="ngStorage.js"></script>    
+    <script>
+        angular.module("schoolClass", ["ngStorage"])
+            .controller("Controller", function ($localStorage, $scope, $filter) {
+                var schoolClassCtrl = this;
+            
+                var login = window.localStorage.login;
+                if(!login) {
+                    window.document.location.href="../index.html";
+                }
+        
+                schoolClassCtrl.logout = function() {
+                    window.localStorage.removeItem('login');
+                    window.document.location.href = "logout.html"
+                }
+            
+                schoolClassCtrl.classes = $localStorage.classes;
+                schoolClassCtrl.teachers = $localStorage.teachers;
+                schoolClassCtrl.pupils = $localStorage.pupils;
+                
+                schoolClassCtrl.temp = JSON.parse(window.localStorage.selectedClass);
+                schoolClassCtrl.currentClass = $filter('filter') (schoolClassCtrl.temp, {role:'classNr'});
+                var currentClass = schoolClassCtrl.currentClass;
+                schoolClassCtrl.currentPupils = $filter('filter') (schoolClassCtrl.pupils, {role:'pupil', classNr:currentClass[0].classNr});
+                schoolClassCtrl.currentTeacher = $filter('filter') (schoolClassCtrl.teachers, {role:'teacher', classNr:currentClass[0].classNr});
+
+                // add a new pupil to the course and save in localStorage
+                schoolClassCtrl.addPupil = function() {
+                    var currentClass = schoolClassCtrl.currentClass;
+                    // Adding new values to array
+                    schoolClassCtrl.pupils.push({name:schoolClassCtrl.newName, prename:schoolClassCtrl.newPrename, role:'pupil', classNr:currentClass[0].classNr});
+                    // Reset input fields
+                    schoolClassCtrl.newName = '';
+                    schoolClassCtrl.newPrename = '';
+                    // Save new array to localStorage
+                    $localStorage.pupils = schoolClassCtrl.pupils;
+                    schoolClassCtrl.currentPupils = $filter('filter') (schoolClassCtrl.pupils, {role:'pupil', classNr:currentClass[0].classNr});
+                }
+            
+                // filter for class-number
+                schoolClassCtrl.getClass = function(course) {
+                    if(course.role == 'classNr') {
+                        return true;
+                    }
+                    return false;
+                }
+            
+                // filter for teacher
+                schoolClassCtrl.getTeacher = function(course) {
+                    if (course.role == 'teacher') {
+                        return true;
+                    }
+                    return false;
+                }   
+                
+                //filter for pupils
+                schoolClassCtrl.getPupil = function(course) {
+                    if(course.role == 'pupil') {
+                        return true;
+                    }
+                    return false;
+                }
+                
+                /*
+                *   Changing the teacher
+                */
+                schoolClassCtrl.changeTeacher = function() {
+                    // Array containing just class
+                    var classDesc = $filter('filter') (schoolClassCtrl.classes, {role:'classNr'});
+                    // Array containing just teacher
+                    var teacherDesc = $filter('filter') (schoolClassCtrl.teachers, {role:'teacher'});
+                    // Array containing all values except teacher
+                    schoolClassCtrl.temp = $filter('filter') (schoolClassCtrl.teachers, {role:'!teacher'});  // array ohne lehrer
+                    // Check if input field for name or prename is empty --- use previous value if empty
+                    if((typeof schoolClassCtrl.newTeacherName == 'undefined') | (schoolClassCtrl.newTeacherName == '')) {
+                        schoolClassCtrl.newTeacherName = teacherDesc[0].name;
+                    }
+                    if((typeof schoolClassCtrl.newTeacherPrename == 'undefined') | (schoolClassCtrl.newTeacherPrename == '')) {
+                        schoolClassCtrl.newTeacherPrename = teacherDesc[0].prename;
+                    }
+                    // Adding new values to array
+                    schoolClassCtrl.temp.push({name:schoolClassCtrl.newTeacherName, prename:schoolClassCtrl.newTeacherPrename, role:'teacher', classNr:classDesc[0].classNr});
+                    // Reset input fields
+                    schoolClassCtrl.newTeacherName = '';
+                    schoolClassCtrl.newTeacherPrename = '';
+                    // Save new array in localStorage
+                    $localStorage.teachers = schoolClassCtrl.temp;
+                }
+                
+                /*
+                *   Changing class number
+                */
+                schoolClassCtrl.changeClassNr = function() {
+                    var currentClass = schoolClassCtrl.currentClass;
+                    var oldClass = currentClass[0].classNr;
+                    var newClass = schoolClassCtrl.newClassNr;
+                    
+                    // Check if input field for number or attribute empty --- use previous value if empty
+                    if((typeof schoolClassCtrl.newClassNr == 'undefined') | (schoolClassCtrl.newClassNr == '') | (schoolClassCtrl.newClassNr == null)) {
+                        schoolClassCtrl.newClassNr = oldClass;
+                    }
+                    
+                    // Reset input fields
+                    schoolClassCtrl.newClassNr = '';
+
+                    // Setting selected class in localStorage
+                    currentClass[0].classNr = newClass;
+                    window.localStorage.selectedClass = JSON.stringify(currentClass);
+                    
+                    // Setting new current class
+                    schoolClassCtrl.currentClass = currentClass;
+                    
+                    var stringTemp = '!' + oldClass;
+                    
+                    // Changing the class number of the class
+                    schoolClassCtrl.classes.forEach(function(entry) {
+                        if(entry.classNr == oldClass) {
+                            entry.classNr = newClass;
+                        }
+                    });
+                    
+                    // Save new array in localStorage
+                    $localStorage.classes = schoolClassCtrl.classes;
+                    
+                    // Changing the class numbers of all pupils of this class
+                    schoolClassCtrl.pupils.forEach(function(entry) {
+                        if(entry.classNr == oldClass) {
+                            entry.classNr = newClass;
+                        }                                    
+                    });
+                    
+                    // Save new array in localStorage
+                    $localStorage.pupils = schoolClassCtrl.pupils;
+                    
+                    //Changing the class number of the teacher of this class
+                    schoolClassCtrl.teachers.forEach(function(entry) {
+                        if(entry.classNr == oldClass) {
+                            entry.classNr = newClass;
+                        }
+                    });
+                    
+                    // Save new array in localStorage
+                    $localStorage.teachers = schoolClassCtrl.teachers;
+                }
+                
+                /*
+                *   Deleting a pupil form class
+                */
+                schoolClassCtrl.deletePupil = function(x) {
+                    schoolClassCtrl.pupils = $filter('filter') (schoolClassCtrl.pupils, schoolClassCtrl.deletePupilFilter(x));
+                    $localStorage.pupils = schoolClassCtrl.pupils;
+                }
+                
+                /*
+                *   Setting filter-function for schoolClassCtrl.deletePupil()
+                *   returns a function for getting selected pupil
+                */
+                schoolClassCtrl.deletePupilFilter = function(x) {
+                    return function(pupils) {
+                        return ((pupils.name != x.name) | (pupils.prename != x.prename) | (pupils.role != x.role));
+                    }
+                }
+            
+                /*
+                *   Redirect to HTML-Page for changing a pupil's values
+                */
+                schoolClassCtrl.changePupil = function(x) {
+                    schoolClassCtrl.pupil = $filter('filter') (schoolClassCtrl.pupils, schoolClassCtrl.getPupilFilter(x));
+                    window.localStorage.pupil = JSON.stringify(schoolClassCtrl.pupil); 
+                    if(window.localStorage.pupil != null) {
+                        window.location.href = "changepupil.html";
+                    }
+                }
+                
+                /*
+                *   Setting filter-function for schoolClassCtrl.changePupil()
+                *   returns a function for getting all pupils
+                */
+                schoolClassCtrl.getPupilFilter = function(x) {
+                    return function(course) {
+                        return ((course.name == x.name) & (course.prename == x.prename) & (course.role == 'pupil'));
+                    }
+                }
+            });
+    </script>
+</head>
+
+<body ng-app="schoolClass" ng-controller="Controller as schoolClassCtrl">
+    <nav>
+        <ul>
+            <li>
+                <form id="navtitle">Klassenbuch</form>
+            </li>
+            <li>
+                <a href="mainmenu.html">Hauptmenü</a>
+            </li>
+            <li>
+                <a href="#">Schüler</a>
+                <ul>
+                    <li><a href="showpupil.html">Anzeigen</a></li>
+                    <li><a href="newpupil.html">Anlegen</a></li>
+                </ul>
+            </li> 
+           <li>
+                <a href="#">Lehrer</a>
+                <ul>
+                    <li><a href="showteacher.html">Anzeigen</a></li>
+                    <li><a href="newteacher.html">Anlegen</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Klassen</a>
+                <ul>
+                    <li><a href="showclass.html">Anzeigen</a></li>
+                    <li><a href="newclass.html">Anlegen</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" ng-click="schoolClassCtrl.logout()">Logout</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div>
+        <h1 ng-repeat="x in schoolClassCtrl.currentClass">Klasse {{x.classNr}} bearbeiten</h1>
+        <form ng-submit="schoolClassCtrl.changeClassNr()" ng-repeat="x in schoolClassCtrl.currentClass">
+            <input type="number" ng-model="schoolClassCtrl.newClassNr" min="1" max="13" placeholder={{x.classNr}} />
+            <input class="btn-primary" type="submit" value="Klassenstufe ändern">
+        </form>
+        <br />
+        <form ng-submit="schoolClassCtrl.changeTeacher()"  ng-repeat="x in schoolClassCtrl.currentTeacher">
+            <input type="text" placeholder={{x.name}} ng-model="schoolClassCtrl.newTeacherName" />
+            <input type="text" placeholder={{x.prename}} ng-model="schoolClassCtrl.newTeacherPrename" />
+            <input class="btn-primary" type="submit" value="Lehrer ändern">
+        </form>
+        <br />
+        <table>
+            <caption>Schüler</caption>
+            <colgroup>
+                <col span="2" id="name">
+                <col id="edit">
+            </colgroup>
+            <tr>
+                <th>Nachname</th>
+                <th>Vorname</th>
+                <th>Bearbeiten</th>
+            </tr>
+            <tr ng-repeat="x in schoolClassCtrl.currentPupils">
+                <td>
+                    {{x.name}}
+                </td>
+                <td>
+                    {{x.prename}}
+                </td>
+                <td id="editTd">
+                    <img src="edit.png" alt="Bearbeiten"  ng-click="schoolClassCtrl.changePupil(x)"/>
+                    <img src="delete.png" alt="Löschen" ng-click="schoolClassCtrl.deletePupil(x)"/>
+                </td>
+            </tr>  
+        </table>
+        <br />
+        <br />
+        <form ng-submit="schoolClassCtrl.addPupil()">
+            <h3>Hinzufügen eines neuen Schülers</h3>
+            <input type="text" ng-model="schoolClassCtrl.newName" size="30" placeholder="Nachname" required />
+            <input type="text" ng-model="schoolClassCtrl.newPrename" size="30" placeholder="Vorname" required /><br /><br />
+            <input class="btn-primary" type="submit" value="Hinzufügen" />
+        </form>
+        <br />
+        <a href="javascript:window.history.back()">
+            <button type="button">Zurück</button>
+        </a>
+        <br />
+        <br />
+    </div>
+</body>
+</html>

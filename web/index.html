@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>App Engine</title>
+</head>
+
+<body>
+<h1>Hello App Engine!</h1>
+
+<h2>App Engine von Andreas Elsemann und Oliver Scholz</h2>
+
+<h2>DHBW Mosbach, Kurs INF14B</h2>
+
+<table>
+    <tr>
+        <td colspan="2" style="font-weight:bold;">Aktuell verfügbare Servlets:</td>
+    </tr>
+    <tr>
+        <td><a href="helloworld">Hello World Servlet</a></td>
+    </tr>
+    <tr>
+        <td><a href="action">Action Servlet</a></td>
+    </tr>
+    <tr>
+        <td><a href="headers">Read Headers - Hier werden die Header-Daten ausgelesen und angezeigt</a></td>
+    </tr>
+    <tr>
+        <td><a href="teacher">Entity Funktionen Lehrer</a></td>
+    </tr>
+    <tr>
+        <td><a href="schoolclass">Entity Funktionen Klasse</a></td>
+    </tr>
+    <tr>
+        <td><a href="student">Entity Funktionen Schüler</a></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="font-weight:bold;">Hier geht es zum Klassenbuch:</td>
+    </tr>
+    <tr>
+        <td><a href="klassenbuch/index.html">Klassenbuch</a>
+    </tr>
+</table>
+
+<br/>
+<br/>
+<br/>
+
+<form action="/action" method="post">
+    Benutzername:<input type="text" name="user"/><br/>
+    Telefonnummer:<input type="tel" name="tel"/><br/>
+    <input type="submit"/>
+</form>
+
+<form action="/md5" method="post">
+    <input type="text" name="encPwd" />
+    <input type="submit" />
+</form>
+</body>
+</html>
