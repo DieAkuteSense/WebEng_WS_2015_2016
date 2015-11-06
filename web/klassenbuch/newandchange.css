@@ -15,7 +15,7 @@ img {
     -webkit-transition: opacity 0.3s ease-out 0s;
     -moz-transition: opacity 0.3s ease-out 0s;
     -o-transition: opacity 0.3s ease-out 0s;
-    transition: opacity 0.3s ease-out 0s;   
+    transition: opacity 0.3s ease-out 0s;
 }
 
 img:hover {
@@ -25,14 +25,14 @@ img:hover {
 
 #description {
     margin-left: 5%;
-    width: 55%;   
+    width: 55%;
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 20px;
 }
 
 select {
-    font-size: 16px;   
+    font-size: 16px;
 }
 
 button {

@@ -1,12 +1,8 @@
 package de.dhbw.de.webeng;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-
 import com.google.appengine.api.datastore.Key;
+
+import javax.persistence.*;
 
 /**
  * Created by Andreas on 24.10.2015.
@@ -23,7 +19,7 @@ public class Teacher {
     private Key key;
 
     private String name;
-    private String lastname;
+    private String lastName;
 
     @Transient
     private boolean loggedin;
@@ -31,23 +27,25 @@ public class Teacher {
     public Teacher() {
     }
 
-    public Teacher(String name2, String lastname2) {
-        name = name2;
-        lastname = lastname2;
+    public Teacher(String name, String lastName) {
+        this.name = name;
+        this.lastName = lastName;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name2) {
-        name = name2;
+    public void setName(String name) {
+        this.name = name;
     }
+
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
-    public void setLastname(String name2) {
-        lastname = name2;
+
+    public void setLastname(String lastName) {
+        this.lastName = lastName;
     }
 
     public long getId() {

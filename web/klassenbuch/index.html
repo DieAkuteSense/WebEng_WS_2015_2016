@@ -2,95 +2,119 @@
 
 <head>
     <title>Klassenbuch Login</title>
-    <meta http-equiv="content-type" charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="index.css" />
-    <meta charset="utf-8" />
-    <meta lang="de" />
+    <meta http-equiv="content-type" charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+    <meta charset="utf-8"/>
+    <meta lang="de"/>
     <script src="jquery.js"></script>
     <script src="angular.js"></script>
-    <script src="ngStorage.js"></script>    
+    <script src="ngStorage.js"></script>
     <script>
         angular.module("index", ["ngStorage"])
-            .controller("Controller", function ($localStorage, $scope, $filter) {
-                var indexCtrl = this;
+                .controller("Controller", function ($localStorage, $scope, $filter) {
+                    var indexCtrl = this;
 
-                // Array with defaul values, used if localStorage is empty
-                var initializeTeachers = [
-                    {name:'Roth', prename:'Heiko', role:'teacher', classNr:'10'},
-                    {name:'Saller', prename:'Dirk', role:'teacher', classNr:'11'}
-                ];
-                var initializePupils = [
-                    {name:'Imglück', prename:'Hans', role:'pupil', classNr:'10'},
-                    {name:'Jürgens', prename:'Udo', role:'pupil', classNr:'10'},
-                    {name:'Wurst', prename:'Peter', role:'pupil', classNr:'11'}
-                ]
-                var initializeClasses = [
-                    {classNr:'10', role:'classNr'},
-                    {classNr:'11', role:'classNr'}
-                ]
-                var initializeNotes = [
-                    {classnr:'10', name:'Imglück', prename:'Hans', authorName:'Roth', authorPrename:'Heiko', date:'10.04.2014', text:'Hans Imglück kam zum wiederholten Male zu spät.'},
-                    {classnr:'10', name:'Jürgens', prename:'Udo', authorName:'Roth', authorPrename:'Heiko', date:'10.04.2014', text:'Udo Jürgens kam zum wiederholten Male zu spät.'},
-                    {classnr:'10', name:'Imglück', prename:'Hans', authorName:'Roth', authorPrename:'Heiko', date:'12.05.2014', text:'Hans Imglück hat keine Hausaufgaben.'}
-                ];
-            
-                indexCtrl.pupils = $localStorage.pupils;
-                indexCtrl.teachers = $localStorage.teachers;
-                indexCtrl.classes = $localStorage.classes;
-                indexCtrl.notes = $localStorage.notes;
+                    // Array with defaul values, used if localStorage is empty
+                    var initializeTeachers = [
+                        {name: 'Roth', prename: 'Heiko', role: 'teacher', classNr: '10'},
+                        {name: 'Saller', prename: 'Dirk', role: 'teacher', classNr: '11'}
+                    ];
+                    var initializePupils = [
+                        {name: 'Imglück', prename: 'Hans', role: 'pupil', classNr: '10'},
+                        {name: 'Jürgens', prename: 'Udo', role: 'pupil', classNr: '10'},
+                        {name: 'Wurst', prename: 'Peter', role: 'pupil', classNr: '11'}
+                    ]
+                    var initializeClasses = [
+                        {classNr: '10', role: 'classNr'},
+                        {classNr: '11', role: 'classNr'}
+                    ]
+                    var initializeNotes = [
+                        {
+                            classnr: '10',
+                            name: 'Imglück',
+                            prename: 'Hans',
+                            authorName: 'Roth',
+                            authorPrename: 'Heiko',
+                            date: '10.04.2014',
+                            text: 'Hans Imglück kam zum wiederholten Male zu spät.'
+                        },
+                        {
+                            classnr: '10',
+                            name: 'Jürgens',
+                            prename: 'Udo',
+                            authorName: 'Roth',
+                            authorPrename: 'Heiko',
+                            date: '10.04.2014',
+                            text: 'Udo Jürgens kam zum wiederholten Male zu spät.'
+                        },
+                        {
+                            classnr: '10',
+                            name: 'Imglück',
+                            prename: 'Hans',
+                            authorName: 'Roth',
+                            authorPrename: 'Heiko',
+                            date: '12.05.2014',
+                            text: 'Hans Imglück hat keine Hausaufgaben.'
+                        }
+                    ];
 
-                // check if localStorage contains values or if it is empty. If empty, fill with initializeArray data
-                if(!indexCtrl.pupils) {
-                    $localStorage.pupils = initializePupils;  
-                    console.dir('Pupils initialized with default values!');
                     indexCtrl.pupils = $localStorage.pupils;
-                }
-                if(!indexCtrl.teachers) {
-                    $localStorage.teachers = initializeTeachers;
-                    console.dir('Teachers initialized with default values!');
                     indexCtrl.teachers = $localStorage.teachers;
-                }
-                if(!indexCtrl.classes) {
-                    $localStorage.classes = initializeClasses;
-                    console.dir('Classes initialized with default values!');
                     indexCtrl.classes = $localStorage.classes;
-                }
-                if(!indexCtrl.notes) {
-                    $localStorage.notes = initializeNotes;
-                    console.dir('Notes initialized with default values!');
                     indexCtrl.notes = $localStorage.notes;
-                }
-            
-                indexCtrl.saveLogin = function() {
-                    var login = [{loggedInName:indexCtrl.name, loggedInPrename:indexCtrl.prename}];
-                    window.localStorage.login = JSON.stringify(login);
-                    
-                    window.document.location.href="mainmenu.html";
-                }
-        });
+
+                    // check if localStorage contains values or if it is empty. If empty, fill with initializeArray data
+                    if (!indexCtrl.pupils) {
+                        $localStorage.pupils = initializePupils;
+                        console.dir('Pupils initialized with default values!');
+                        indexCtrl.pupils = $localStorage.pupils;
+                    }
+                    if (!indexCtrl.teachers) {
+                        $localStorage.teachers = initializeTeachers;
+                        console.dir('Teachers initialized with default values!');
+                        indexCtrl.teachers = $localStorage.teachers;
+                    }
+                    if (!indexCtrl.classes) {
+                        $localStorage.classes = initializeClasses;
+                        console.dir('Classes initialized with default values!');
+                        indexCtrl.classes = $localStorage.classes;
+                    }
+                    if (!indexCtrl.notes) {
+                        $localStorage.notes = initializeNotes;
+                        console.dir('Notes initialized with default values!');
+                        indexCtrl.notes = $localStorage.notes;
+                    }
+
+                    indexCtrl.saveLogin = function () {
+                        var login = [{loggedInName: indexCtrl.name, loggedInPrename: indexCtrl.prename}];
+                        window.localStorage.login = JSON.stringify(login);
+
+                        window.document.location.href = "mainmenu.html";
+                    }
+                });
     </script>
 </head>
-    
-<body ng-app="index" ng-controller="Controller as indexCtrl">
-    <div>
-        <h1>Klassenbuch</h1>
-    </div>
 
-    <div id="login">
-        <div id="inside">
-            <form ng-submit="indexCtrl.saveLogin()">
-                <label>Nachname:</label>
-                <input type="text" ng-model="indexCtrl.name" placeholder="Nachname" id="user" required />
-                <br />
-                <br />
-                <label>Vorname:</label>
-                <input type="text" ng-model="indexCtrl.prename" placeholder="Vorname" id="pswd" required />
-                <input class="btn-primary" type="submit" value="Login" />
-            </form>
-        </div>
-        <a href="../index.html"><input class="btn-primary" type="submit" value="Zurück zur Servlet Auswahl" /></a>
+<body ng-app="index" ng-controller="Controller as indexCtrl">
+<div>
+    <h1>Klassenbuch</h1>
+</div>
+
+<div id="login">
+    <div id="inside">
+        <form ng-submit="indexCtrl.saveLogin()">
+            <label>Nachname:</label>
+            <input type="text" ng-model="indexCtrl.name" placeholder="Nachname" id="user" required/>
+            <br/>
+            <br/>
+            <label>Vorname:</label>
+            <input type="text" ng-model="indexCtrl.prename" placeholder="Vorname" id="pswd" required/>
+            <input class="btn-primary" type="submit" value="Login"/>
+        </form>
     </div>
-    
+    <a href="../index.html"><input class="btn-primary" type="submit" value="Zurück zur Servlet Auswahl"/></a>
+</div>
+
 </body>
 
 </html>

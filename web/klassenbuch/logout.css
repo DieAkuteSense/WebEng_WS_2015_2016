@@ -4,7 +4,7 @@ html {
     background: -moz-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
     background: -webkit-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
     background: -ms-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
-    background: -o-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);  
+    background: -o-linear-gradient(top, #b3b3b3 0%, #d3d3d3 50%, #d3d3d3 100%);
     background-attachment: fixed;
 }
 
@@ -21,7 +21,7 @@ h2 {
 }
 
 body {
-   font-family: sans-serif;
+    font-family: sans-serif;
 }
 
 div {
@@ -34,5 +34,5 @@ div {
 }
 
 #logouthint {
-    width: 60%;   
+    width: 60%;
 }

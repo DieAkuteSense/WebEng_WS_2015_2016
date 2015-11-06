@@ -4,78 +4,86 @@
 
 <head>
     <title>Sch&uuml;lernotiz anzeigen</title>
-    <link rel="stylesheet" type="text/css" href="nav.css" />
-    <link rel="stylesheet" type="text/css" href="newnote.css" />
-    <meta charset="utf-8" />
-    <meta lang="de" />
-    
+    <link rel="stylesheet" type="text/css" href="nav.css"/>
+    <link rel="stylesheet" type="text/css" href="newnote.css"/>
+    <meta charset="utf-8"/>
+    <meta lang="de"/>
+
 </head>
-    
+
 <body>
-        <nav>
-        <ul>
-            <li>
-                <form id="navtitle">Klassenbuch</form>
-            </li>
-            <li>
-                <a href="mainmenu.html">Hauptmenü</a>
-            </li>
-            <li>
-                <a href="#">Schüler</a>
-                <ul>
-                    <li><a href="showpupil.html">Anzeigen</a></li>
-                    <!--
-                    <li><a href="#">Bearbeiten</a></li>
-                    <li><a href="#">L&ouml;schen</a></li>
-                    -->
-                    <li><a href="newpupil.html">Anlegen</a></li>
-                </ul>
-            </li> 
-           <li>
-                <a href="#">Lehrer</a>
-                <ul>
-                    <li><a href="showteacher.html">Anzeigen</a></li>
-                    <!--
-                    <li><a href="#">Bearbeiten</a></li>
-                    <li><a href="#">L&ouml;schen</a></li>
-                    -->
-                    <li><a href="newteacher.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Klassen</a>
-                <ul>
-                    <li><a href="showclass.html">Anzeigen</a></li>
-                    <!--
-                    <li><a href="#">Bearbeiten</a></li>
-                    <li><a href="#">L&ouml;schen</a></li>
-                    -->
-                    <li><a href="newclass.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <form id="navsearch">
-                    <input type="text" placeholder="Suche..." />
-                </form>
-            </li>
-            <li>
-                <a href="logout.html">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    
+<nav>
+    <ul>
+        <li>
+            <form id="navtitle">Klassenbuch</form>
+        </li>
+        <li>
+            <a href="mainmenu.html">Hauptmenü</a>
+        </li>
+        <li>
+            <a href="#">Schüler</a>
+            <ul>
+                <li><a href="showpupil.html">Anzeigen</a></li>
+                <!--
+                <li><a href="#">Bearbeiten</a></li>
+                <li><a href="#">L&ouml;schen</a></li>
+                -->
+                <li><a href="newpupil.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Lehrer</a>
+            <ul>
+                <li><a href="showteacher.html">Anzeigen</a></li>
+                <!--
+                <li><a href="#">Bearbeiten</a></li>
+                <li><a href="#">L&ouml;schen</a></li>
+                -->
+                <li><a href="newteacher.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Klassen</a>
+            <ul>
+                <li><a href="showclass.html">Anzeigen</a></li>
+                <!--
+                <li><a href="#">Bearbeiten</a></li>
+                <li><a href="#">L&ouml;schen</a></li>
+                -->
+                <li><a href="newclass.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <form id="navsearch">
+                <input type="text" placeholder="Suche..."/>
+            </form>
+        </li>
+        <li>
+            <a href="logout.html">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<div>
+    <p>Herr Müller schrieb am
+        <time>06.05.2015</time>
+        um
+        <time>10:11</time>
+        Uhr über Hans Wurst:
+    </p>
+    <textarea placeholder="Neue Notiz eingeben..."
+              readonly>Hans Wurst beschrieb im Unterricht den Tisch. Bla Bla.</textarea>
+
+    <br/>
+    <br/>
+
     <div>
-        <p>Herr Müller schrieb am <time>06.05.2015</time> um <time>10:11</time> Uhr über Hans Wurst:</p>
-        <textarea placeholder="Neue Notiz eingeben..." readonly>Hans Wurst beschrieb im Unterricht den Tisch. Bla Bla.</textarea>        
-        
-        <br />
-        <br />
-        
-        <div>
-            <a href="showpupil.html"><button type="button">Zurück</button></a>
-        </div>
+        <a href="showpupil.html">
+            <button type="button">Zurück</button>
+        </a>
     </div>
-    
+</div>
+
 </body>
 
 </html>

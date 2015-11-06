@@ -1,12 +1,8 @@
 package de.dhbw.de.webeng;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-
 import com.google.appengine.api.datastore.Key;
+
+import javax.persistence.*;
 
 /**
  * Created by Andreas on 24.10.2015.
@@ -30,7 +26,7 @@ public class Student {
 
     public Student(String name2, String lastname2, int year2) {
         name = name2;
-        lastname=lastname2;
+        lastname = lastname2;
         year = year2;
     }
 
@@ -45,9 +41,11 @@ public class Student {
     public String getLastname() {
         return lastname;
     }
+
     public void setLastname(String name2) {
         lastname = name2;
     }
+
     public int getYear() {
         return year;
     }
@@ -55,6 +53,7 @@ public class Student {
     public void setYear(int year2) {
         year = year2;
     }
+
     public long getId() {
         return key.getId();
 

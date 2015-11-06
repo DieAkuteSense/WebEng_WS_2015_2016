@@ -1,9 +1,6 @@
 package de.dhbw.de.webeng;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -13,15 +10,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.appengine.api.datastore.KeyFactory;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andreas on 24.10.2015.
  */
 
 
-//name Nachname Klasse 
 @SuppressWarnings("serial")
 public class StudentServlet extends HttpServlet {
     @Override
@@ -43,12 +41,12 @@ public class StudentServlet extends HttpServlet {
                     String name = req.getParameter("name");
                     String lastname = req.getParameter("lastname");
                     int year = Integer.parseInt(req.getParameter("year"));
-                    Student student = new Student(name,lastname,year);
+                    Student student = new Student(name, lastname, year);
 
                     EntityManager em = EMF.createEntityManager();
                     em.persist(student);
                     em.close();
-                    writer.write("new Student " + name +" "+ lastname +  " in the year " + String.valueOf(year) + " (" + student.getId()+ ").");
+                    writer.write("new Student " + name + " " + lastname + " in the year " + String.valueOf(year) + " (" + student.getId() + ").");
                 }
                 break;
                 case "update": {
@@ -57,12 +55,12 @@ public class StudentServlet extends HttpServlet {
                     EntityManager em = EMF.createEntityManager();
                     Student student = em.find(Student.class, KeyFactory.createKey("Student", Long.parseLong(id)));
 
-                    writer.write("found student " + student.getName() + " ("+ student.getId() + ").");
+                    writer.write("found student " + student.getName() + " (" + student.getId() + ").");
 
                     student.setName(req.getParameter("name"));
                     student.setLastname(req.getParameter("lastname"));
                     student.setYear(Integer.parseInt(req.getParameter("year")));
-                    writer.write("renamed student to " + student.getName() + student.getLastname()+ " in year "+ student.getYear() +  ".");
+                    writer.write("renamed student to " + student.getName() + student.getLastname() + " in year " + student.getYear() + ".");
 
                     em.merge(student);
                     em.close();
@@ -73,8 +71,7 @@ public class StudentServlet extends HttpServlet {
 
                     EntityManager em = EMF.createEntityManager();
                     Student student = em.find(Student.class, KeyFactory.createKey("Student", Long.parseLong(id)));
-                    writer.write("found student " + student.getName() + " ("
-                            + student.getId() + ").");
+                    writer.write("found student " + student.getName() + " (" + student.getId() + ").");
 
                     em.remove(student);
                     writer.write("removed student " + student.getName() + ".");
@@ -85,9 +82,7 @@ public class StudentServlet extends HttpServlet {
                     String searchName = req.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
-                    Query query = em
-                            .createQuery("SELECT s FROM Student s WHERE s.name='"
-                                    + searchName + ":");
+                    Query query = em.createQuery("SELECT s FROM Student s WHERE s.name='" + searchName + "'");
                     try {
                         Student student = (Student) query.getSingleResult();
                         writer.write("found student " + student.getName() + " ("
@@ -104,8 +99,7 @@ public class StudentServlet extends HttpServlet {
                     String searchName = req.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
-                    String s = "SELECT s FROM Student s WHERE s.name='"
-                            + searchName + "'";
+                    String s = "SELECT s FROM Student s WHERE s.name='" + searchName + "'";
                     writer.write("query " + s);
                     Query query = em.createQuery(s);
 
@@ -115,8 +109,7 @@ public class StudentServlet extends HttpServlet {
                     writer.write("\nfound " + list.size() + " students.");
 
                     for (Student student : list) {
-                        writer.write("\nfound student " + student.getName() + " ("
-                                + student.getId() + ").");
+                        writer.write("\nfound student " + student.getName() + " (" + student.getId() + ").");
                     }
 
                     em.close();
@@ -137,8 +130,7 @@ public class StudentServlet extends HttpServlet {
                     writer.write("\nfound " + list.size() + " students.");
 
                     for (Student student : list) {
-                        writer.write("\nfound student " + student.getName() + " ("
-                                + student.getId() + ").");
+                        writer.write("\nfound student " + student.getName() + " (" + student.getId() + ").");
                     }
 
                     em.close();
@@ -159,8 +151,7 @@ public class StudentServlet extends HttpServlet {
                     writer.write("\nfound " + list.size() + " students.");
 
                     for (Student student : list) {
-                        writer.write("\nfound student " + student.getName() + " ("
-                                + student.getId() + ").");
+                        writer.write("\nfound student " + student.getName() + " (" + student.getId() + ").");
                     }
 
                     em.close();
@@ -178,8 +169,7 @@ public class StudentServlet extends HttpServlet {
                     writer.write("\nfound " + list.size() + " students.");
 
                     for (Student student : list) {
-                        writer.write("\nfound student " + student.getName() +student.getLastname()+ student.getYear() + " ("
-                                + student.getId() + ").");
+                        writer.write("\nfound student " + student.getName() + student.getLastname() + student.getYear() + " (" + student.getId() + ").");
                     }
 
                     em.close();
@@ -217,7 +207,13 @@ public class StudentServlet extends HttpServlet {
                 break;
             }
         } catch (Exception e) {
-            writer.write("The URL must have a \"method\" parameter! \n\n Possible parameters are:\n create (with name & lastname & year) \n update (with id(needed!) and name/lastname/year(you can choose all/two/just one)\n delete (with id) \n allNullStudents (deletes all Students that are null) \n allStudents (shows all Students)");
+            writer.write("The URL must have a \"method\" parameter! \n\n" +
+                    "Possible parameters are:\n create (with name & lastname & year) \n" +
+                    "update (with id(needed!) and name/lastname/year(you can choose all/two/just one)\n" +
+                    "delete (with id) \n" +
+                    "allNullStudents (deletes all Students that are null) \n" +
+                    "allStudents (shows all Students) \n" +
+                    "search1 (with lastname (only prename of the student)) ");
         }
     }
 }

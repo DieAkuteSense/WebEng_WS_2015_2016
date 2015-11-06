@@ -1,95 +1,98 @@
 <!DOCTYPE HTML>
 
 <html>
-    
+
 <head>
 
     <title>Hauptmenü</title>
-    <link rel="stylesheet" type="text/css" href="mainmenu.css" />
-    <link rel="stylesheet" type="text/css" href="nav.css" />
-    <meta charset="utf-8" />
-    <meta lang="de" />
+    <link rel="stylesheet" type="text/css" href="mainmenu.css"/>
+    <link rel="stylesheet" type="text/css" href="nav.css"/>
+    <meta charset="utf-8"/>
+    <meta lang="de"/>
     <script src="angular.js"></script>
     <script src="ngStorage.js"></script>
-    
+
     <script>
         angular.module("mainMenu", ["ngStorage"])
-        .controller("Controller", function($localStorage, $filter) {
-            var mainMenuCtrl = this;
-            
-            var login = window.localStorage.login;
-            if(!login) {
-                window.document.location.href="../index.html";
-            }
-        
-            mainMenuCtrl.logout = function() {
-                window.localStorage.removeItem('login');
-                window.document.location.href = "logout.html";
-            }
-        });
+                .controller("Controller", function ($localStorage, $filter) {
+                    var mainMenuCtrl = this;
+
+                    var login = window.localStorage.login;
+                    if (!login) {
+                        window.document.location.href = "../index.html";
+                    }
+
+                    mainMenuCtrl.logout = function () {
+                        window.localStorage.removeItem('login');
+                        window.document.location.href = "logout.html";
+                    }
+                });
     </script>
 </head>
-   
+
 <body ng-app="mainMenu" ng-controller="Controller as mainMenuCtrl">
-    <nav>
-        <ul>
-            <li>
-                <form id="navtitle">Klassenbuch</form>
-            </li>
-            <li>
-                <a href="#">Hauptmenü</a>
-            </li>
-            <li>
-                <a href="#">Schüler</a>
-                <ul>
-                    <li><a href="showpupil.html">Anzeigen</a></li>
-                    <li><a href="newpupil.html">Anlegen</a></li>
-                </ul>
-            </li> 
-           <li>
-                <a href="#">Lehrer</a>
-                <ul>
-                    <li><a href="showteacher.html">Anzeigen</a></li>
-                    <li><a href="newteacher.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Klassen</a>
-                <ul>
-                    <li><a href="showclass.html">Anzeigen</a></li>
-                    <li><a href="newclass.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" ng-click="mainMenuCtrl.logout()">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    
-    <div>    
-        <h2>Schüler</h2>
-        <p>Hier finden Sie alle Funktionen zu Schülern.</p>
-        <a>
-            <a href="showpupil.html"><p>Anzeigen</p></a>
-            <a href="newpupil.html"><p>Anlegen</p></a>
-        </a>
-    </div>  
-    <div>
-        <h2>Lehrer</h2>
-        <p>Hier finden Sie alle Funktionen zu Lehrern.</p>
-        <a>
-            <a href="showteacher.html"><p>Anzeigen</p></a>
-            <a href="newteacher.html"><p>Anlegen</p></a>
-        </a>
-    </div>
-    <div>
-        <h2>Klasse</h2>
-        <p>Hier finden Sie alle Funktionen zu Klassen.</p>
-        <a>
-            <a href="showclass.html"><p>Anzeigen</p></a>
-            <a href="newclass.html"><p>Anlegen</p></a>
-        </a>
-    </div>
+<nav>
+    <ul>
+        <li>
+            <form id="navtitle">Klassenbuch</form>
+        </li>
+        <li>
+            <a href="#">Hauptmenü</a>
+        </li>
+        <li>
+            <a href="#">Schüler</a>
+            <ul>
+                <li><a href="showpupil.html">Anzeigen</a></li>
+                <li><a href="newpupil.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Lehrer</a>
+            <ul>
+                <li><a href="showteacher.html">Anzeigen</a></li>
+                <li><a href="newteacher.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Klassen</a>
+            <ul>
+                <li><a href="showclass.html">Anzeigen</a></li>
+                <li><a href="newclass.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" ng-click="mainMenuCtrl.logout()">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<div>
+    <h2>Schüler</h2>
+
+    <p>Hier finden Sie alle Funktionen zu Schülern.</p>
+    <a>
+        <a href="showpupil.html"><p>Anzeigen</p></a>
+        <a href="newpupil.html"><p>Anlegen</p></a>
+    </a>
+</div>
+<div>
+    <h2>Lehrer</h2>
+
+    <p>Hier finden Sie alle Funktionen zu Lehrern.</p>
+    <a>
+        <a href="showteacher.html"><p>Anzeigen</p></a>
+        <a href="newteacher.html"><p>Anlegen</p></a>
+    </a>
+</div>
+<div>
+    <h2>Klasse</h2>
+
+    <p>Hier finden Sie alle Funktionen zu Klassen.</p>
+    <a>
+        <a href="showclass.html"><p>Anzeigen</p></a>
+        <a href="newclass.html"><p>Anlegen</p></a>
+    </a>
+</div>
 </body>
-    
+
 </html>

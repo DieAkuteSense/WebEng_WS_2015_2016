@@ -4,132 +4,132 @@
 
 <head>
     <title>Lehrer anzeigen</title>
-    
-    <link rel="stylesheet" type="text/css" href="nav.css" />
-    <link rel="stylesheet" type="text/css" href="newandchangeclass.css" />
-    <link rel="stylesheet" type="text/css" href="table.css" />
-    <meta charset="utf-8" />
-    <meta lang="de" />
+
+    <link rel="stylesheet" type="text/css" href="nav.css"/>
+    <link rel="stylesheet" type="text/css" href="newandchangeclass.css"/>
+    <link rel="stylesheet" type="text/css" href="table.css"/>
+    <meta charset="utf-8"/>
+    <meta lang="de"/>
     <script src="angular.js"></script>
     <script src="ngStorage.js"></script>
     <script>
         angular.module("showTeacher", ["ngStorage"])
-        .controller("Controller", function ($localStorage, $filter, $scope) {
-            var showTeacherCtrl = this;
-            
-            var login = window.localStorage.login;
-            if(!login) {
-                window.document.location.href="../index.html";
-            }
-            
-            showTeacherCtrl.logout = function() {
-                window.localStorage.removeItem('login');
-                window.document.location.href = "logout.html"
-            }
-                  
-            showTeacherCtrl.teachers = $localStorage.teachers;
-            
-            /*
-            *   Redirect to HTML-Page for changing a pupil's values
-            */
-            showTeacherCtrl.changeTeacher = function(x) {
-                showTeacherCtrl.selectedTeacher = $filter('filter') (showTeacherCtrl.teachers, showTeacherCtrl.getTeacherFilter(x));
-                window.localStorage.selectedTeacher = JSON.stringify(showTeacherCtrl.selectedTeacher); 
-                if(window.localStorage.pupil != null) {
-                    window.location.href = "changeteacher.html";
-                }
-            }
-                    
-            /*
-            *   Setting filter-function for showTeacherCtrl.changeTeacher(x)
-            */
-            showTeacherCtrl.getTeacherFilter = function(x) {
-                return function(teachers) {
-                    return ((teachers.name == x.name) & (teachers.prename == x.prename) & (teachers.role == 'teacher'));
-                }
-            }
-            
-            /*
-            *   Deleting a teacher
-            */
-            showTeacherCtrl.deleteTeacher = function(x) {
-                showTeacherCtrl.teachers = $filter('filter') (showTeacherCtrl.teachers, showTeacherCtrl.deleteTeacherFilter(x));
-                $localStorage.teachers = showTeacherCtrl.teachers;
-            }
-                
-            /*
-            *   Setting filter-function for showTeacherCtrl.deleteTeacher(x)
-            */
-            showTeacherCtrl.deleteTeacherFilter = function(x) {
-                return function(teachers) {
-                    return ((teachers.name != x.name) | (teachers.prename != x.prename) | (teachers.role != x.role));
-                }
-            }
-        });
+                .controller("Controller", function ($localStorage, $filter, $scope) {
+                    var showTeacherCtrl = this;
+
+                    var login = window.localStorage.login;
+                    if (!login) {
+                        window.document.location.href = "../index.html";
+                    }
+
+                    showTeacherCtrl.logout = function () {
+                        window.localStorage.removeItem('login');
+                        window.document.location.href = "logout.html"
+                    }
+
+                    showTeacherCtrl.teachers = $localStorage.teachers;
+
+                    /*
+                     *   Redirect to HTML-Page for changing a pupil's values
+                     */
+                    showTeacherCtrl.changeTeacher = function (x) {
+                        showTeacherCtrl.selectedTeacher = $filter('filter')(showTeacherCtrl.teachers, showTeacherCtrl.getTeacherFilter(x));
+                        window.localStorage.selectedTeacher = JSON.stringify(showTeacherCtrl.selectedTeacher);
+                        if (window.localStorage.pupil != null) {
+                            window.location.href = "changeteacher.html";
+                        }
+                    }
+
+                    /*
+                     *   Setting filter-function for showTeacherCtrl.changeTeacher(x)
+                     */
+                    showTeacherCtrl.getTeacherFilter = function (x) {
+                        return function (teachers) {
+                            return ((teachers.name == x.name) & (teachers.prename == x.prename) & (teachers.role == 'teacher'));
+                        }
+                    }
+
+                    /*
+                     *   Deleting a teacher
+                     */
+                    showTeacherCtrl.deleteTeacher = function (x) {
+                        showTeacherCtrl.teachers = $filter('filter')(showTeacherCtrl.teachers, showTeacherCtrl.deleteTeacherFilter(x));
+                        $localStorage.teachers = showTeacherCtrl.teachers;
+                    }
+
+                    /*
+                     *   Setting filter-function for showTeacherCtrl.deleteTeacher(x)
+                     */
+                    showTeacherCtrl.deleteTeacherFilter = function (x) {
+                        return function (teachers) {
+                            return ((teachers.name != x.name) | (teachers.prename != x.prename) | (teachers.role != x.role));
+                        }
+                    }
+                });
     </script>
 </head>
 
 <body ng-app="showTeacher" ng-controller="Controller as showTeacherCtrl">
-    <nav>
-        <ul>
-            <li>
-                <form id="navtitle">Klassenbuch</form>
-            </li>
-            <li>
-                <a href="mainmenu.html">Hauptmenü</a>
-            </li>
-            <li>
-                <a href="#">Schüler</a>
-                <ul>
-                    <li><a href="showpupil.html">Anzeigen</a></li>
-                    <li><a href="newpupil.html">Anlegen</a></li>
-                </ul>
-            </li> 
-           <li>
-                <a href="#">Lehrer</a>
-                <ul>
-                    <li><a href="#">Anzeigen</a></li>
-                    <li><a href="newteacher.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Klassen</a>
-                <ul>
-                    <li><a href="showclass.html">Anzeigen</a></li>
-                    <li><a href="newclass.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" ng-click="showTeacherCtrl.logout()">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    <div> 
-        <table>
-            <caption>Lehrer</caption>
-            <colgroup>
-                <col span="2" id="name">
-                <col id="edit">
-            </colgroup>
-            <tr>
-                <th>Nachname</th>
-                <th>Vorname</th>
-                <th>Bearbeiten</th>
-            </tr>
-            <tr ng-repeat="x in showTeacherCtrl.teachers">
-                <td>
-                    {{x.name}}
-                </td>
-                <td>
-                    {{x.prename}}
-                </td>
-                <td id="editTd">
-                    <img src="edit.png" alt="Bearbeiten"  ng-click="showTeacherCtrl.changeTeacher(x)"/>
-                    <img src="delete.png" alt="Löschen" ng-click="showTeacherCtrl.deleteTeacher(x)" />
-                </td>
-            </tr>  
-        </table>
-    </div>
+<nav>
+    <ul>
+        <li>
+            <form id="navtitle">Klassenbuch</form>
+        </li>
+        <li>
+            <a href="mainmenu.html">Hauptmenü</a>
+        </li>
+        <li>
+            <a href="#">Schüler</a>
+            <ul>
+                <li><a href="showpupil.html">Anzeigen</a></li>
+                <li><a href="newpupil.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Lehrer</a>
+            <ul>
+                <li><a href="#">Anzeigen</a></li>
+                <li><a href="newteacher.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Klassen</a>
+            <ul>
+                <li><a href="showclass.html">Anzeigen</a></li>
+                <li><a href="newclass.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" ng-click="showTeacherCtrl.logout()">Logout</a>
+        </li>
+    </ul>
+</nav>
+<div>
+    <table>
+        <caption>Lehrer</caption>
+        <colgroup>
+            <col span="2" id="name">
+            <col id="edit">
+        </colgroup>
+        <tr>
+            <th>Nachname</th>
+            <th>Vorname</th>
+            <th>Bearbeiten</th>
+        </tr>
+        <tr ng-repeat="x in showTeacherCtrl.teachers">
+            <td>
+                {{x.name}}
+            </td>
+            <td>
+                {{x.prename}}
+            </td>
+            <td id="editTd">
+                <img src="edit.png" alt="Bearbeiten" ng-click="showTeacherCtrl.changeTeacher(x)"/>
+                <img src="delete.png" alt="Löschen" ng-click="showTeacherCtrl.deleteTeacher(x)"/>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 
 </html>

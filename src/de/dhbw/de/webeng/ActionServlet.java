@@ -1,8 +1,11 @@
 package de.dhbw.de.webeng;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
-import java.io.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by Olli on 12.10.2015.

@@ -1,12 +1,8 @@
 package de.dhbw.de.webeng;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-
 import com.google.appengine.api.datastore.Key;
+
+import javax.persistence.*;
 
 /**
  * Created by Andreas on 24.10.2015.
@@ -27,10 +23,11 @@ public class SchoolClass {
     public SchoolClass() {
     }
 
-    public SchoolClass(String t2,int year2) {
+    public SchoolClass(String t2, int year2) {
         teachername = t2;
         year = year2;
     }
+
     public String getTeachername() {
         return teachername;
     }
@@ -46,6 +43,7 @@ public class SchoolClass {
     public void setYear(int year2) {
         year = year2;
     }
+
     public long getId() {
         return key.getId();
 

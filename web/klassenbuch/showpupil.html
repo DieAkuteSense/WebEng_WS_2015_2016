@@ -2,189 +2,202 @@
 
 <html>
 <head>
-    
+
     <title>Schüler anzeigen</title>
-    
-    <link rel="stylesheet" type="text/css" href="nav.css" />
-    <link rel="stylesheet" type="text/css" href="show.css" />
-    <meta charset="utf-8" />
-    <meta lang="de" />
+
+    <link rel="stylesheet" type="text/css" href="nav.css"/>
+    <link rel="stylesheet" type="text/css" href="show.css"/>
+    <meta charset="utf-8"/>
+    <meta lang="de"/>
     <script src="angular.js"></script>
     <script src="ngStorage.js"></script>
-    
+
     <script>
         angular.module("showPupil", ["ngStorage"])
-        .controller("Controller", function ($localStorage, $filter, $scope) {
-            var pupilCtrl = this;           
+                .controller("Controller", function ($localStorage, $filter, $scope) {
+                    var pupilCtrl = this;
 
-            var login = window.localStorage.login;
-            if(!login) {
-                window.document.location.href="../index.html";
-            }
-        
-            pupilCtrl.logout = function() {
-                window.localStorage.removeItem('login');
-                window.document.location.href = "logout.html"
-            }
+                    var login = window.localStorage.login;
+                    if (!login) {
+                        window.document.location.href = "../index.html";
+                    }
 
-            pupilCtrl.teachers = $localStorage.teachers;
-            pupilCtrl.pupils = $localStorage.pupils;
-            pupilCtrl.classes = $localStorage.classes;
-            pupilCtrl.notes = $localStorage.notes;
-            
-            var pupils = $localStorage.pupils;
-            var notes = $localStorage.notes;
-            
-            if(window.localStorage.pupil) {
-                pupilCtrl.actualPupil = JSON.parse(window.localStorage.pupil);                
-            }
-            if(window.localStorage.noteToPupil) {
-                pupilCtrl.noteToPupil = JSON.parse(window.localStorage.noteToPupil);
-            }
-            
-            pupilCtrl.selectPupil = function(selectedPupil) {
-                pupilCtrl.notes = $localStorage.notes;
-                pupilCtrl.actualPupil = $filter('filter') (pupilCtrl.pupils, pupilCtrl.getActualPupil(selectedPupil.name, selectedPupil.prename));
-                pupilCtrl.noteToPupil = $filter('filter') (pupilCtrl.notes, pupilCtrl.getActualNotes(selectedPupil.name, selectedPupil.prename)); 
-            }
+                    pupilCtrl.logout = function () {
+                        window.localStorage.removeItem('login');
+                        window.document.location.href = "logout.html"
+                    }
 
-            pupilCtrl.getActualPupil = function(name, prename) {
-                return function(pupils) {
-                    return ((pupils.name == name) & (pupils.prename == prename) & (pupils.role == 'pupil'));
-                }
-            }
-            
-            pupilCtrl.getActualNotes = function(name, prename) {
-                return function(notes) {
-                    return ((notes.name == name) & (notes.prename == prename));
-                }
-            }
-            
-            pupilCtrl.addNote = function() {
-                var actualPupil = pupilCtrl.actualPupil;
-                alert(actualPupil);
-                login = JSON.parse(window.localStorage.login);
-                var now = new Date();
-                var date = now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear();
-                // Adding new values to array
-                pupilCtrl.notes.push({classnr:actualPupil[0].classNr, name:actualPupil[0].name, prename:actualPupil[0].prename, authorName:login[0].loggedInName, authorPrename:login[0].loggedInPrename, date:date, text:pupilCtrl.newNoteText});
-                // Reset input fields
-                pupilCtrl.newNoteText = '';
-                // Save new array to localStorage
-                $localStorage.notes = pupilCtrl.notes;
-                pupilCtrl.noteToPupil = $filter('filter') (pupilCtrl.notes, pupilCtrl.getActualNotes(actualPupil[0].name, actualPupil[0].prename)); 
-            }
-            
-            /*
-            *   Deleting a note
-            */
-            pupilCtrl.deleteNote = function(x) {
-                var actualPupil = pupilCtrl.actualPupil;
-                pupilCtrl.notes = $filter('filter') (pupilCtrl.notes, pupilCtrl.deleteNoteFilter(x));
-                $localStorage.notes = pupilCtrl.notes;
-                pupilCtrl.noteToPupil = $filter('filter') (pupilCtrl.notes, pupilCtrl.getActualNotes(actualPupil[0].name, actualPupil[0].prename));         
-            }
-                
-            /*
-            *   Setting filter-function for pupilCtrl.deleteNote()
-            *   returns a function for getting selected note
-            */
-            pupilCtrl.deleteNoteFilter = function(x) {
-                return function(notes) {
-                    return (notes.text != x.text);
-                }
-            }
-            
-            pupilCtrl.changeNote = function(x) {
-                var stringTemp = '!' + x.text;
-                pupilCtrl.noteToEdit = $filter ('filter') (pupilCtrl.noteToPupil, {text:x.text});
-                pupilCtrl.noteToPupil = $filter ('filter') (pupilCtrl.noteToPupil, {text:stringTemp});
-            }
-            
-            pupilCtrl.saveChangedNote = function() {
-                var toPush = pupilCtrl.noteToEdit[0];
-                toPush.text = pupilCtrl.changedText;
-                pupilCtrl.noteToPupil.push(toPush);
-                pupilCtrl.noteToEdit = null;
-            }
+                    pupilCtrl.teachers = $localStorage.teachers;
+                    pupilCtrl.pupils = $localStorage.pupils;
+                    pupilCtrl.classes = $localStorage.classes;
+                    pupilCtrl.notes = $localStorage.notes;
 
-        });    
+                    var pupils = $localStorage.pupils;
+                    var notes = $localStorage.notes;
+
+                    if (window.localStorage.pupil) {
+                        pupilCtrl.actualPupil = JSON.parse(window.localStorage.pupil);
+                    }
+                    if (window.localStorage.noteToPupil) {
+                        pupilCtrl.noteToPupil = JSON.parse(window.localStorage.noteToPupil);
+                    }
+
+                    pupilCtrl.selectPupil = function (selectedPupil) {
+                        pupilCtrl.notes = $localStorage.notes;
+                        pupilCtrl.actualPupil = $filter('filter')(pupilCtrl.pupils, pupilCtrl.getActualPupil(selectedPupil.name, selectedPupil.prename));
+                        pupilCtrl.noteToPupil = $filter('filter')(pupilCtrl.notes, pupilCtrl.getActualNotes(selectedPupil.name, selectedPupil.prename));
+                    }
+
+                    pupilCtrl.getActualPupil = function (name, prename) {
+                        return function (pupils) {
+                            return ((pupils.name == name) & (pupils.prename == prename) & (pupils.role == 'pupil'));
+                        }
+                    }
+
+                    pupilCtrl.getActualNotes = function (name, prename) {
+                        return function (notes) {
+                            return ((notes.name == name) & (notes.prename == prename));
+                        }
+                    }
+
+                    pupilCtrl.addNote = function () {
+                        var actualPupil = pupilCtrl.actualPupil;
+                        alert(actualPupil);
+                        login = JSON.parse(window.localStorage.login);
+                        var now = new Date();
+                        var date = now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear();
+                        // Adding new values to array
+                        pupilCtrl.notes.push({
+                            classnr: actualPupil[0].classNr,
+                            name: actualPupil[0].name,
+                            prename: actualPupil[0].prename,
+                            authorName: login[0].loggedInName,
+                            authorPrename: login[0].loggedInPrename,
+                            date: date,
+                            text: pupilCtrl.newNoteText
+                        });
+                        // Reset input fields
+                        pupilCtrl.newNoteText = '';
+                        // Save new array to localStorage
+                        $localStorage.notes = pupilCtrl.notes;
+                        pupilCtrl.noteToPupil = $filter('filter')(pupilCtrl.notes, pupilCtrl.getActualNotes(actualPupil[0].name, actualPupil[0].prename));
+                    }
+
+                    /*
+                     *   Deleting a note
+                     */
+                    pupilCtrl.deleteNote = function (x) {
+                        var actualPupil = pupilCtrl.actualPupil;
+                        pupilCtrl.notes = $filter('filter')(pupilCtrl.notes, pupilCtrl.deleteNoteFilter(x));
+                        $localStorage.notes = pupilCtrl.notes;
+                        pupilCtrl.noteToPupil = $filter('filter')(pupilCtrl.notes, pupilCtrl.getActualNotes(actualPupil[0].name, actualPupil[0].prename));
+                    }
+
+                    /*
+                     *   Setting filter-function for pupilCtrl.deleteNote()
+                     *   returns a function for getting selected note
+                     */
+                    pupilCtrl.deleteNoteFilter = function (x) {
+                        return function (notes) {
+                            return (notes.text != x.text);
+                        }
+                    }
+
+                    pupilCtrl.changeNote = function (x) {
+                        var stringTemp = '!' + x.text;
+                        pupilCtrl.noteToEdit = $filter('filter')(pupilCtrl.noteToPupil, {text: x.text});
+                        pupilCtrl.noteToPupil = $filter('filter')(pupilCtrl.noteToPupil, {text: stringTemp});
+                    }
+
+                    pupilCtrl.saveChangedNote = function () {
+                        var toPush = pupilCtrl.noteToEdit[0];
+                        toPush.text = pupilCtrl.changedText;
+                        pupilCtrl.noteToPupil.push(toPush);
+                        pupilCtrl.noteToEdit = null;
+                    }
+
+                });
     </script>
 </head>
-    
-<body ng-app="showPupil" ng-controller="Controller as pupilCtrl"> 
-    <nav>
-        <ul>
-            <li>
-                <form id="navtitle">Klassenbuch</form>
-            </li>
-            <li>
-                <a href="mainmenu.html">Hauptmenü</a>
-            </li>
-            <li>
-                <a href="#">Schüler</a>
-                <ul>
-                    <li><a href="#">Anzeigen</a></li>
-                    <li><a href="newpupil.html">Anlegen</a></li>
-                </ul>
-            </li> 
-           <li>
-                <a href="#">Lehrer</a>
-                <ul>
-                    <li><a href="showteacher.html">Anzeigen</a></li>
-                    <li><a href="newteacher.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Klassen</a>
-                <ul>
-                    <li><a href="showclass.html">Anzeigen</a></li>
-                    <li><a href="newclass.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" ng-click="pupilCtrl.logout()">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    
-    <div id="selector">
-        <h3>
-            <form ng-submit="pupilCtrl.selectPupil(pupilCtrl.selectedPupil)">
+
+<body ng-app="showPupil" ng-controller="Controller as pupilCtrl">
+<nav>
+    <ul>
+        <li>
+            <form id="navtitle">Klassenbuch</form>
+        </li>
+        <li>
+            <a href="mainmenu.html">Hauptmenü</a>
+        </li>
+        <li>
+            <a href="#">Schüler</a>
+            <ul>
+                <li><a href="#">Anzeigen</a></li>
+                <li><a href="newpupil.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Lehrer</a>
+            <ul>
+                <li><a href="showteacher.html">Anzeigen</a></li>
+                <li><a href="newteacher.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Klassen</a>
+            <ul>
+                <li><a href="showclass.html">Anzeigen</a></li>
+                <li><a href="newclass.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" ng-click="pupilCtrl.logout()">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<div id="selector">
+    <h3>
+        <form ng-submit="pupilCtrl.selectPupil(pupilCtrl.selectedPupil)">
             <label>Schüler wählen:</label>
-            <select ng-model="pupilCtrl.selectedPupil" ng-options="selection.name for selection in pupilCtrl.pupils"></select>
-            <input class="btn-primary" type="submit" />
+            <select ng-model="pupilCtrl.selectedPupil"
+                    ng-options="selection.name for selection in pupilCtrl.pupils"></select>
+            <input class="btn-primary" type="submit"/>
         </form>
-        </h3>
-    </div>
-    <div id="image">
-        <img src="platzhalter.jpg" height="100%" width="100%" />
-    </div>
-    <div id="description">
-        <div ng-repeat="x in pupilCtrl.actualPupil">
-            <h3>{{x.prename}} {{x.name}} </h3>
-            <h4>Klassen {{x.classNr}}</h4>
-            <br />
-            <h4>Notizen zu {{x.prename}} {{x.name}}</h4>
-            <form ng-submit="pupilCtrl.saveChangedNote()" ng-repeat="note in pupilCtrl.noteToEdit" id="note">
-                <p><i>Am {{note.date}} schrieb {{note.authorPrename}} {{note.authorName}}</i></p>
-                <textarea cols="100" rows="5" ng-model="pupilCtrl.changedText">{{note.text}}</textarea>
-                <br />
-                <br />
-                <input class="btn-primary" type="submit" value="Speichern" />
-            </form>
-            <div ng-repeat="note in pupilCtrl.noteToPupil" id="note">
-                <p><i>Am {{note.date}} schrieb {{note.authorPrename}} {{note.authorName}}</i></p>
-                <p>{{note.text}}<a href="#" ng-click="pupilCtrl.changeNote(note)"><img src="edit.png" height="20px" /></a><a href="#" ng-click="pupilCtrl.deleteNote(note)"><img src="delete.png" height="20px" /></a></p>
-                <br />
-            </div>
-            <form ng-submit="pupilCtrl.addNote()">
-                <h4>Hinzufügen einer neuen Notiz</h4>
-                <textarea cols="100" rows="5" ng-model="pupilCtrl.newNoteText" placeholder="Hier neue Notiz eingeben..." required></textarea>
-                <br /><br />
-                <input class="btn-primary" type="submit" value="Hinzufügen" />
-            </form>
+    </h3>
+</div>
+<div id="image">
+    <img src="platzhalter.jpg" height="100%" width="100%"/>
+</div>
+<div id="description">
+    <div ng-repeat="x in pupilCtrl.actualPupil">
+        <h3>{{x.prename}} {{x.name}} </h3>
+        <h4>Klassen {{x.classNr}}</h4>
+        <br/>
+        <h4>Notizen zu {{x.prename}} {{x.name}}</h4>
+
+        <form ng-submit="pupilCtrl.saveChangedNote()" ng-repeat="note in pupilCtrl.noteToEdit" id="note">
+            <p><i>Am {{note.date}} schrieb {{note.authorPrename}} {{note.authorName}}</i></p>
+            <textarea cols="100" rows="5" ng-model="pupilCtrl.changedText">{{note.text}}</textarea>
+            <br/>
+            <br/>
+            <input class="btn-primary" type="submit" value="Speichern"/>
+        </form>
+        <div ng-repeat="note in pupilCtrl.noteToPupil" id="note">
+            <p><i>Am {{note.date}} schrieb {{note.authorPrename}} {{note.authorName}}</i></p>
+
+            <p>{{note.text}}<a href="#" ng-click="pupilCtrl.changeNote(note)"><img src="edit.png" height="20px"/></a><a
+                    href="#" ng-click="pupilCtrl.deleteNote(note)"><img src="delete.png" height="20px"/></a></p>
+            <br/>
         </div>
+        <form ng-submit="pupilCtrl.addNote()">
+            <h4>Hinzufügen einer neuen Notiz</h4>
+            <textarea cols="100" rows="5" ng-model="pupilCtrl.newNoteText" placeholder="Hier neue Notiz eingeben..."
+                      required></textarea>
+            <br/><br/>
+            <input class="btn-primary" type="submit" value="Hinzufügen"/>
+        </form>
     </div>
+</div>
 </body>
 </html>

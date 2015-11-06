@@ -3,145 +3,150 @@
 <html>
 
 <head>
-    
+
     <title>Lehrer bearbeiten</title>
-    
-    <link rel="stylesheet" type="text/css" href="nav.css" />
-    <link rel="stylesheet" type="text/css" href="newandchange.css" />
-    <meta charset="utf-8" />
-    <meta lang="de" />
+
+    <link rel="stylesheet" type="text/css" href="nav.css"/>
+    <link rel="stylesheet" type="text/css" href="newandchange.css"/>
+    <meta charset="utf-8"/>
+    <meta lang="de"/>
     <script src="angular.js"></script>
     <script src="ngStorage.js"></script>
-    
+
     <script>
         angular.module("changeTeacher", ["ngStorage"])
-        .controller("Controller", function($localStorage, $filter) {
-            var changeTeacherCtrl = this;
-            
-            var login = window.localStorage.login;
-            if(!login) {
-                window.document.location.href="../index.html";
-            }
-        
-            changeTeacherCtrl.logout = function() {
-                window.localStorage.removeItem('login');
-                window.document.location.href = "logout.html";
-            }
-            
-            changeTeacherCtrl.teacher = JSON.parse(window.localStorage.selectedTeacher); // <------------------------------- BUUUG
-            
-            var teacherObject = changeTeacherCtrl.teacher;
-            
-            changeTeacherCtrl.classes = $localStorage.classes;
-            changeTeacherCtrl.teachers = $localStorage.teachers;
-            
-            /*
-            *   Changing the teacher
-            */
-            changeTeacherCtrl.changeTeacher = function() {
-                var string = '!' + teacherObject[0].name;
-                // Array containing all values except the teacher to change
-                changeTeacherCtrl.temp = $filter('filter') (changeTeacherCtrl.teachers, {name:string});
-                // Check if input field for name or prename is empty --- use previous value if empty
-                if((typeof changeTeacherCtrl.newName == 'undefined') | (changeTeacherCtrl.newName == '')) {
-                    changeTeacherCtrl.newName = teacherObject[0].name;
-                }
-                if((typeof changeTeacherCtrl.newPrename == 'undefined') | (changeTeacherCtrl.newPrename == '')) {
-                    changeTeacherCtrl.newPrename = teacherObject[0].prename;
-                }
-                if((typeof changeTeacherCtrl.newClassNr == 'undefined') | (changeTeacherCtrl.newClassNr == '')) {
-                    changeTeacherCtrl.newClassNr = teacherObject[0].classNr;
-                }
-                // Adding new values to array
-                changeTeacherCtrl.temp.push({name:changeTeacherCtrl.newName, prename:changeTeacherCtrl.newPrename, role:'teacher', classNr:changeTeacherCtrl.newClassNr});
-                // Changing values in current teacher
-                teacherObject[0].name = changeTeacherCtrl.newName;
-                teacherObject[0].prename = changeTeacherCtrl.newPrename;
-                teacherObject[0].classNr = changeTeacherCtrl.newClassNr;
-                window.localStorage.teacher = JSON.stringify(teacherObject[0]);
-                // Reset input fields
-                changeTeacherCtrl.newName = '';
-                changeTeacherCtrl.newPrename = '';
-                changeTeacherCtrl.newClassNr = '';
-                // Save new array in localStorage
-                $localStorage.teachers = changeTeacherCtrl.temp;
+                .controller("Controller", function ($localStorage, $filter) {
+                    var changeTeacherCtrl = this;
 
-            }
-            
-        });
+                    var login = window.localStorage.login;
+                    if (!login) {
+                        window.document.location.href = "../index.html";
+                    }
+
+                    changeTeacherCtrl.logout = function () {
+                        window.localStorage.removeItem('login');
+                        window.document.location.href = "logout.html";
+                    }
+
+                    changeTeacherCtrl.teacher = JSON.parse(window.localStorage.selectedTeacher); // <------------------------------- BUUUG
+
+                    var teacherObject = changeTeacherCtrl.teacher;
+
+                    changeTeacherCtrl.classes = $localStorage.classes;
+                    changeTeacherCtrl.teachers = $localStorage.teachers;
+
+                    /*
+                     *   Changing the teacher
+                     */
+                    changeTeacherCtrl.changeTeacher = function () {
+                        var string = '!' + teacherObject[0].name;
+                        // Array containing all values except the teacher to change
+                        changeTeacherCtrl.temp = $filter('filter')(changeTeacherCtrl.teachers, {name: string});
+                        // Check if input field for name or prename is empty --- use previous value if empty
+                        if ((typeof changeTeacherCtrl.newName == 'undefined') | (changeTeacherCtrl.newName == '')) {
+                            changeTeacherCtrl.newName = teacherObject[0].name;
+                        }
+                        if ((typeof changeTeacherCtrl.newPrename == 'undefined') | (changeTeacherCtrl.newPrename == '')) {
+                            changeTeacherCtrl.newPrename = teacherObject[0].prename;
+                        }
+                        if ((typeof changeTeacherCtrl.newClassNr == 'undefined') | (changeTeacherCtrl.newClassNr == '')) {
+                            changeTeacherCtrl.newClassNr = teacherObject[0].classNr;
+                        }
+                        // Adding new values to array
+                        changeTeacherCtrl.temp.push({
+                            name: changeTeacherCtrl.newName,
+                            prename: changeTeacherCtrl.newPrename,
+                            role: 'teacher',
+                            classNr: changeTeacherCtrl.newClassNr
+                        });
+                        // Changing values in current teacher
+                        teacherObject[0].name = changeTeacherCtrl.newName;
+                        teacherObject[0].prename = changeTeacherCtrl.newPrename;
+                        teacherObject[0].classNr = changeTeacherCtrl.newClassNr;
+                        window.localStorage.teacher = JSON.stringify(teacherObject[0]);
+                        // Reset input fields
+                        changeTeacherCtrl.newName = '';
+                        changeTeacherCtrl.newPrename = '';
+                        changeTeacherCtrl.newClassNr = '';
+                        // Save new array in localStorage
+                        $localStorage.teachers = changeTeacherCtrl.temp;
+
+                    }
+
+                });
     </script>
-    
+
 </head>
-    
+
 <body ng-app="changeTeacher" ng-controller="Controller as changeTeacherCtrl">
-    <nav>
-        <ul>
-            <li>
-                <form id="navtitle">Klassenbuch</form>
-            </li>
-            <li>
-                <a href="mainmenu.html">Hauptmenü</a>
-            </li>
-            <li>
-                <a href="#">Schüler</a>
-                <ul>
-                    <li><a href="showpupil.html">Anzeigen</a></li>
-                    <li><a href="newpupil.html">Anlegen</a></li>
-                </ul>
-            </li> 
-           <li>
-                <a href="#">Lehrer</a>
-                <ul>
-                    <li><a href="showteacher.html">Anzeigen</a></li>
-                    <li><a href="newteacher.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Klassen</a>
-                <ul>
-                    <li><a href="showclass.html">Anzeigen</a></li>
-                    <li><a href="newclass.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" ng-click="changeTeacherCtrl.logout()">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    
-    <div id="image">
-        <img src="platzhalter.jpg" height="100%" width="100%" />
+<nav>
+    <ul>
+        <li>
+            <form id="navtitle">Klassenbuch</form>
+        </li>
+        <li>
+            <a href="mainmenu.html">Hauptmenü</a>
+        </li>
+        <li>
+            <a href="#">Schüler</a>
+            <ul>
+                <li><a href="showpupil.html">Anzeigen</a></li>
+                <li><a href="newpupil.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Lehrer</a>
+            <ul>
+                <li><a href="showteacher.html">Anzeigen</a></li>
+                <li><a href="newteacher.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Klassen</a>
+            <ul>
+                <li><a href="showclass.html">Anzeigen</a></li>
+                <li><a href="newclass.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" ng-click="changeTeacherCtrl.logout()">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<div id="image">
+    <img src="platzhalter.jpg" height="100%" width="100%"/>
+</div>
+<div id="description">
+    <div ng-repeat="x in changeTeacherCtrl.teacher">
+        <form ng-submit="changeTeacherCtrl.changeTeacher()">
+            <input type="text" ng-model="changeTeacherCtrl.newName" placeholder={{x.name}}/>
+            <input type="text" ng-model="changeTeacherCtrl.newPrename" placeholder={{x.prename}}/><br/><br/>
+            <input type="number" ng-model="changeTeacherCtrl.newClassNr" placeholder={{x.classNr}} min="1" max="13"/>
+            <input class="btn-primary" type="submit" value="Speichern"/>
+        </form>
     </div>
-    <div id="description">
-        <div ng-repeat="x in changeTeacherCtrl.teacher">
-            <form ng-submit="changeTeacherCtrl.changeTeacher()">
-                <input type="text" ng-model="changeTeacherCtrl.newName" placeholder={{x.name}} />
-                <input type="text" ng-model="changeTeacherCtrl.newPrename" placeholder={{x.prename}} /><br /><br />
-                <input type="number" ng-model="changeTeacherCtrl.newClassNr" placeholder={{x.classNr}} min="1" max="13" />
-                <input class="btn-primary" type="submit" value="Speichern" />
-            </form>
-        </div>
-        
-        <br />
-        <br />
-        
-        <label>Bild auswählen:&nbsp;</label>
-        <input type="file" />
-        
-        <br />
-        <br />
-        
-        <div class="button">
-            <a href="showpupil.html">
-                <button type="submit">Speichern</button>
-            </a>
-        </div>
-        <div class="button">
-            <a href="showteacher.html">
-                <button type="reset">Abbrechen</button>
-            </a>
-        </div>
+
+    <br/>
+    <br/>
+
+    <label>Bild auswählen:&nbsp;</label>
+    <input type="file"/>
+
+    <br/>
+    <br/>
+
+    <div class="button">
+        <a href="showpupil.html">
+            <button type="submit">Speichern</button>
+        </a>
     </div>
+    <div class="button">
+        <a href="showteacher.html">
+            <button type="reset">Abbrechen</button>
+        </a>
+    </div>
+</div>
 </body>
 
 </html>

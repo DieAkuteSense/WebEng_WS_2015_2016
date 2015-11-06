@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Entity Funktionen Lehrer</title>
+</head>
+<body>
+
+<form action="/teacher" method="GET">
+    <fieldset>
+        <h4>Lehrer anlegen</h4>
+        Vorname: <input type="text" name="name" /><br />
+        Nachname: <input type="text" name="lastName" /><br />
+        <input type="submit" name="method" value="create"/>
+    </fieldset>
+    <br />
+</form>
+<br />
+<form action="/teacher" method="GET">
+    <fieldset>
+        <h4>Update</h4>
+        Vorname: <input type="text" name="name" /><br />
+        Nachname: <input type="text" name="lastName" /><br />
+        ID: <input type="text" name="id" /><br />
+        <input type="submit" name="method" value="update" />
+    </fieldset>
+    <br />
+</form>
+<br />
+<form action="/teacher" method="GET">
+    <fieldset>
+        <h4>Entfernen</h4>
+        ID: <input type="text" name="id" /><br />
+        <input type="submit" name="method" value="remove" />
+    </fieldset>
+    <br />
+</form>
+<br />
+<form action="/teacher" method="GET">
+    <fieldset>
+        <h4>Suchen:</h4>
+        Vorname: <input type="text" name="searchName" /><br />
+        <input type="submit" name="method" value="search" />
+    </fieldset>
+    <br />
+</form>
+<br />
+<form action="/teacher" method="GET">
+    <fieldset>
+        <h4>Alle Lehrer anzeigen:</h4>
+        <input type="submit" name="method" value="allTeachers" />
+    </fieldset>
+    <br />
+</form>
+<br />
+<form action="/teacher" method="GET">
+    <fieldset>
+        <h4>Alle fehlerhaften Objekte löschen</h4>
+        <input type="submit" name="method" value="allNullTeachers" />
+    </fieldset>
+    <br />
+</form>
+
+
+</body>
+</html>

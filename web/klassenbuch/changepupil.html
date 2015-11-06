@@ -3,146 +3,151 @@
 <html>
 
 <head>
-    
+
     <title>Schüler bearbeiten</title>
-    
-    <link rel="stylesheet" type="text/css" href="nav.css" />
-    <link rel="stylesheet" type="text/css" href="newandchange.css" />
-    <meta charset="utf-8" />
-    <meta lang="de" />
+
+    <link rel="stylesheet" type="text/css" href="nav.css"/>
+    <link rel="stylesheet" type="text/css" href="newandchange.css"/>
+    <meta charset="utf-8"/>
+    <meta lang="de"/>
     <script src="angular.js"></script>
     <script src="ngStorage.js"></script>
-    
+
     <script>
         angular.module("changePupil", ["ngStorage"])
-        .controller("Controller", function($localStorage, $filter) {
-            var changePupilCtrl = this;
-            
-            var login = window.localStorage.login;
-            if(!login) {
-                window.document.location.href="../index.html";
-            }
-        
-            changePupilCtrl.logout = function() {
-                window.localStorage.removeItem('login');
-                window.document.location.href = "logout.html";
-            }
-            
-            changePupilCtrl.pupil = JSON.parse(window.localStorage.pupil);
-            
-            var pupilObject = changePupilCtrl.pupil;
-            
-            changePupilCtrl.classes = $localStorage.classes;
-            changePupilCtrl.pupils = $localStorage.pupils;
-            
-            /*
-            *   Changing the pupil
-            */
-            changePupilCtrl.changePupil = function() {
-                var string = '!' + pupilObject[0].name;
-                // Array containing all values except the pupil to change
-                changePupilCtrl.temp = $filter('filter') (changePupilCtrl.pupils, {name:string});
-                console.dir(changePupilCtrl.temp);
-                // Check if input field for name or prename is empty --- use previous value if empty
-                if((typeof changePupilCtrl.newName == 'undefined') | (changePupilCtrl.newName == '')) {
-                    changePupilCtrl.newName = pupilObject[0].name;
-                }
-                if((typeof changePupilCtrl.newPrename == 'undefined') | (changePupilCtrl.newPrename == '')) {
-                    changePupilCtrl.newPrename = pupilObject[0].prename;
-                }
-                if((typeof changePupilCtrl.newClassNr == 'undefined') | (changePupilCtrl.newClassNr == '')) {
-                    changePupilCtrl.newClassNr = pupilObject[0].classNr;
-                }
-                // Adding new values to array
-                changePupilCtrl.temp.push({name:changePupilCtrl.newName, prename:changePupilCtrl.newPrename, role:'pupil', classNr:changePupilCtrl.newClassNr});
-                // Changing values in current pupil
-                pupilObject[0].name = changePupilCtrl.newName;
-                pupilObject[0].prename = changePupilCtrl.newPrename;
-                pupilObject[0].classNr = changePupilCtrl.newClassNr;
-                window.localStorage.pupil = JSON.stringify(pupilObject[0]);
-                // Reset input fields
-                changePupilCtrl.newName = '';
-                changePupilCtrl.newPrename = '';
-                changePupilCtrl.newClassNr = '';
-                // Save new array in localStorage
-                $localStorage.pupils = changePupilCtrl.temp;
+                .controller("Controller", function ($localStorage, $filter) {
+                    var changePupilCtrl = this;
 
-            }
-            
-        });
+                    var login = window.localStorage.login;
+                    if (!login) {
+                        window.document.location.href = "../index.html";
+                    }
+
+                    changePupilCtrl.logout = function () {
+                        window.localStorage.removeItem('login');
+                        window.document.location.href = "logout.html";
+                    }
+
+                    changePupilCtrl.pupil = JSON.parse(window.localStorage.pupil);
+
+                    var pupilObject = changePupilCtrl.pupil;
+
+                    changePupilCtrl.classes = $localStorage.classes;
+                    changePupilCtrl.pupils = $localStorage.pupils;
+
+                    /*
+                     *   Changing the pupil
+                     */
+                    changePupilCtrl.changePupil = function () {
+                        var string = '!' + pupilObject[0].name;
+                        // Array containing all values except the pupil to change
+                        changePupilCtrl.temp = $filter('filter')(changePupilCtrl.pupils, {name: string});
+                        console.dir(changePupilCtrl.temp);
+                        // Check if input field for name or prename is empty --- use previous value if empty
+                        if ((typeof changePupilCtrl.newName == 'undefined') | (changePupilCtrl.newName == '')) {
+                            changePupilCtrl.newName = pupilObject[0].name;
+                        }
+                        if ((typeof changePupilCtrl.newPrename == 'undefined') | (changePupilCtrl.newPrename == '')) {
+                            changePupilCtrl.newPrename = pupilObject[0].prename;
+                        }
+                        if ((typeof changePupilCtrl.newClassNr == 'undefined') | (changePupilCtrl.newClassNr == '')) {
+                            changePupilCtrl.newClassNr = pupilObject[0].classNr;
+                        }
+                        // Adding new values to array
+                        changePupilCtrl.temp.push({
+                            name: changePupilCtrl.newName,
+                            prename: changePupilCtrl.newPrename,
+                            role: 'pupil',
+                            classNr: changePupilCtrl.newClassNr
+                        });
+                        // Changing values in current pupil
+                        pupilObject[0].name = changePupilCtrl.newName;
+                        pupilObject[0].prename = changePupilCtrl.newPrename;
+                        pupilObject[0].classNr = changePupilCtrl.newClassNr;
+                        window.localStorage.pupil = JSON.stringify(pupilObject[0]);
+                        // Reset input fields
+                        changePupilCtrl.newName = '';
+                        changePupilCtrl.newPrename = '';
+                        changePupilCtrl.newClassNr = '';
+                        // Save new array in localStorage
+                        $localStorage.pupils = changePupilCtrl.temp;
+
+                    }
+
+                });
     </script>
-    
+
 </head>
-    
+
 <body ng-app="changePupil" ng-controller="Controller as changePupilCtrl">
-    <nav>
-        <ul>
-            <li>
-                <form id="navtitle">Klassenbuch</form>
-            </li>
-            <li>
-                <a href="mainmenu.html">Hauptmenü</a>
-            </li>
-            <li>
-                <a href="#">Schüler</a>
-                <ul>
-                    <li><a href="showpupil.html">Anzeigen</a></li>
-                    <li><a href="newpupil.html">Anlegen</a></li>
-                </ul>
-            </li> 
-           <li>
-                <a href="#">Lehrer</a>
-                <ul>
-                    <li><a href="showteacher.html">Anzeigen</a></li>
-                    <li><a href="newteacher.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Klassen</a>
-                <ul>
-                    <li><a href="showclass.html">Anzeigen</a></li>
-                    <li><a href="newclass.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" ng-click="changePupilCtrl.logout()">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    
-    <div id="image">
-        <img src="platzhalter.jpg" height="100%" width="100%" />
+<nav>
+    <ul>
+        <li>
+            <form id="navtitle">Klassenbuch</form>
+        </li>
+        <li>
+            <a href="mainmenu.html">Hauptmenü</a>
+        </li>
+        <li>
+            <a href="#">Schüler</a>
+            <ul>
+                <li><a href="showpupil.html">Anzeigen</a></li>
+                <li><a href="newpupil.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Lehrer</a>
+            <ul>
+                <li><a href="showteacher.html">Anzeigen</a></li>
+                <li><a href="newteacher.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Klassen</a>
+            <ul>
+                <li><a href="showclass.html">Anzeigen</a></li>
+                <li><a href="newclass.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" ng-click="changePupilCtrl.logout()">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<div id="image">
+    <img src="platzhalter.jpg" height="100%" width="100%"/>
+</div>
+<div id="description">
+    <div ng-repeat="x in changePupilCtrl.pupil">
+        <form ng-submit="changePupilCtrl.changePupil()">
+            <input type="text" ng-model="changePupilCtrl.newName" placeholder={{x.name}}/>
+            <input type="text" ng-model="changePupilCtrl.newPrename" placeholder={{x.prename}}/><br/><br/>
+            <input type="number" ng-model="changePupilCtrl.newClassNr" placeholder={{x.classNr}} min="1" max="13"/>
+            <input class="btn-primary" type="submit" value="Speichern"/>
+        </form>
     </div>
-    <div id="description">
-        <div ng-repeat="x in changePupilCtrl.pupil">
-            <form ng-submit="changePupilCtrl.changePupil()">
-                <input type="text" ng-model="changePupilCtrl.newName" placeholder={{x.name}} />
-                <input type="text" ng-model="changePupilCtrl.newPrename" placeholder={{x.prename}} /><br /><br />
-                <input type="number" ng-model="changePupilCtrl.newClassNr" placeholder={{x.classNr}} min="1" max="13" />
-                <input class="btn-primary" type="submit" value="Speichern" />
-            </form>
-        </div>
-        
-        <br />
-        <br />
-        
-        <label>Bild auswählen:&nbsp;</label>
-        <input type="file" />
-        
-        <br />
-        <br />
-        
-        <div class="button">
-            <a href="showpupil.html">
-                <button type="submit">Speichern</button>
-            </a>
-        </div>
-        <div class="button">
-            <a href="showpupil.html">
-                <button type="reset">Abbrechen</button>
-            </a>
-        </div>
+
+    <br/>
+    <br/>
+
+    <label>Bild auswählen:&nbsp;</label>
+    <input type="file"/>
+
+    <br/>
+    <br/>
+
+    <div class="button">
+        <a href="showpupil.html">
+            <button type="submit">Speichern</button>
+        </a>
     </div>
+    <div class="button">
+        <a href="showpupil.html">
+            <button type="reset">Abbrechen</button>
+        </a>
+    </div>
+</div>
 </body>
 
 </html>

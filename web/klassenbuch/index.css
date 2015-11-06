@@ -22,12 +22,12 @@ form {
 }
 
 fieldset {
-    text-align: center;  
+    text-align: center;
 }
 
 button {
     width: 20%;
-    font-size: 16px;   
+    font-size: 16px;
 }
 
 div {
@@ -44,7 +44,7 @@ div {
 }
 
 body {
-   font-family: sans-serif;
+    font-family: sans-serif;
 }
 
 label {
@@ -63,9 +63,8 @@ input {
     font-size: 16px;
 }
 
-
 #inside {
     width: 45%;
-    margin: auto;  
+    margin: auto;
     text-align: center;
 }

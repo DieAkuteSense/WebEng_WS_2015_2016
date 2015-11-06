@@ -1,9 +1,6 @@
 package de.dhbw.de.webeng;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -13,8 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.appengine.api.datastore.KeyFactory;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -40,29 +39,26 @@ public class TeacherServlet extends HttpServlet {
                 case "create": {
 
                     String name = req.getParameter("name");
-                    String lastname = req.getParameter("lastname");
-                    Teacher teacher = new Teacher(name,lastname);
+                    String lastName = req.getParameter("lastName");
+                    Teacher teacher = new Teacher(name, lastName);
 
                     EntityManager em = EMF.createEntityManager();
                     em.persist(teacher);
                     em.close();
-                    writer.write("new teacher " + name + " " + lastname + " (" + teacher.getId()
-                            + ").");
+                    writer.write("Neuer Lehrer " + name + " " + lastName + " mit der ID " + teacher.getId() + " angelegt.");
                 }
                 break;
                 case "update": {
                     String id = req.getParameter("id");
 
                     EntityManager em = EMF.createEntityManager();
-                    Teacher teacher = em.find(Teacher.class,
-                            KeyFactory.createKey("Teacher", Long.parseLong(id)));
+                    Teacher teacher = em.find(Teacher.class, KeyFactory.createKey("Teacher", Long.parseLong(id)));
 
-                    writer.write("found teacher " + teacher.getName() +  " " + teacher.getLastname() +" ("
-                            + teacher.getId() + ").");
+                    writer.write("found teacher " + teacher.getName() + " " + teacher.getLastname() + " (" + teacher.getId() + ").");
 
                     teacher.setName(req.getParameter("name"));
-                    teacher.setLastname(req.getParameter("lastname"));
-                    writer.write("renamed teacher to " + teacher.getName() +" "+  teacher.getLastname() + ".");
+                    teacher.setLastname(req.getParameter("lastName"));
+                    writer.write("Lehrer umbenannt in " + teacher.getName() + " " + teacher.getLastname() + ".");
 
                     em.merge(teacher);
                     em.close();
@@ -72,13 +68,11 @@ public class TeacherServlet extends HttpServlet {
                     String id = req.getParameter("id");
 
                     EntityManager em = EMF.createEntityManager();
-                    Teacher teacher = em.find(Teacher.class,
-                            KeyFactory.createKey("Teacher", Long.parseLong(id)));
-                    writer.write("found teacher " + teacher.getName() + " ("
-                            + teacher.getId() + ").");
+                    Teacher teacher = em.find(Teacher.class, KeyFactory.createKey("Teacher", Long.parseLong(id)));
+                    writer.write("Lehrer " + teacher.getName() + " (ID: " + teacher.getId() + ") gefunden.");
 
                     em.remove(teacher);
-                    writer.write("removed teacher " + teacher.getName() +" "+  teacher.getLastname() + ".");
+                    writer.write(" Lehrer " + teacher.getName() + " " + teacher.getLastname() + " gelöscht.");
                     em.close();
                 }
                 break;
@@ -86,13 +80,10 @@ public class TeacherServlet extends HttpServlet {
                     String searchName = req.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
-                    Query query = em
-                            .createQuery("SELECT t FROM Teacher t WHERE t.name='"
-                                    + searchName + "'");
+                    Query query = em.createQuery("SELECT t FROM Teacher t WHERE t.name='" + searchName + "'");
                     try {
                         Teacher teacher = (Teacher) query.getSingleResult();
-                        writer.write("found teacher " + teacher.getName() + " ("
-                                + teacher.getId() + ").");
+                        writer.write("found teacher " + teacher.getName() + " (" + teacher.getId() + ").");
                     } catch (NoResultException e) {
                         writer.write("teacher " + searchName + " not found.");
                     } catch (NonUniqueResultException e) {
@@ -105,8 +96,7 @@ public class TeacherServlet extends HttpServlet {
                     String searchName = req.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
-                    String s = "SELECT t FROM Teacher t WHERE t.name='"
-                            + searchName + "'";
+                    String s = "SELECT t FROM Teacher t WHERE t.name='" + searchName + "'";
                     writer.write("query " + s);
                     Query query = em.createQuery(s);
 
@@ -116,8 +106,7 @@ public class TeacherServlet extends HttpServlet {
                     writer.write("\nfound " + list.size() + " teachers.");
 
                     for (Teacher teacher : list) {
-                        writer.write("\nfound teacher " + teacher.getName() + " ("
-                                + teacher.getId() + ").");
+                        writer.write("\nfound teacher " + teacher.getName() + " (" + teacher.getId() + ").");
                     }
 
                     em.close();
@@ -138,8 +127,7 @@ public class TeacherServlet extends HttpServlet {
                     writer.write("\nfound " + list.size() + " teachers.");
 
                     for (Teacher teacher : list) {
-                        writer.write("\nfound teacher " + teacher.getName() + " ("
-                                + teacher.getId() + ").");
+                        writer.write("\nfound teacher " + teacher.getName() + " (" + teacher.getId() + ").");
                     }
 
                     em.close();
@@ -160,8 +148,7 @@ public class TeacherServlet extends HttpServlet {
                     writer.write("\nfound " + list.size() + " teachers.");
 
                     for (Teacher teacher : list) {
-                        writer.write("\nfound teacher " + teacher.getName() + " ("
-                                + teacher.getId() + ").");
+                        writer.write("\nfound teacher " + teacher.getName() + " (" + teacher.getId() + ").");
                     }
 
                     em.close();
@@ -176,11 +163,10 @@ public class TeacherServlet extends HttpServlet {
                     @SuppressWarnings("unchecked")
                     List<Teacher> list = (List<Teacher>) query.getResultList();
 
-                    writer.write("\nfound " + list.size() + " teachers.");
+                    writer.write("\n" + list.size() + " Lehrer gefunden.");
 
                     for (Teacher teacher : list) {
-                        writer.write("\nfound teacher " + teacher.getName() +" "+  teacher.getLastname() + " ("
-                                + teacher.getId() + ").");
+                        writer.write("\n" + teacher.getName() + " " + teacher.getLastname() + " (ID: " + teacher.getId() + ").");
                     }
 
                     em.close();
@@ -199,8 +185,7 @@ public class TeacherServlet extends HttpServlet {
 
                     List<Long> removeList = new ArrayList<Long>();
                     for (Teacher teacher : list) {
-                        writer.write("\nfound teacher " + teacher.getName() + " ("
-                                + teacher.getId() + ").");
+                        writer.write("\nLehrer " + teacher.getName() + " (ID: " + teacher.getId() + ") gefunden.");
                         removeList.add(teacher.getId());
                     }
                     em.close();
@@ -209,8 +194,7 @@ public class TeacherServlet extends HttpServlet {
                         em = EMF.createEntityManager();
                         Teacher teacher = em.find(Teacher.class,
                                 KeyFactory.createKey("Teacher", id));
-                        writer.write("\nremove teacher " + teacher.getName() + " ("
-                                + teacher.getId() + ").");
+                        writer.write("\nLehrer " + teacher.getName() + " (ID: " + teacher.getId() + ") gelöscht.");
                         em.remove(teacher);
                         em.close();
                     }
@@ -218,7 +202,13 @@ public class TeacherServlet extends HttpServlet {
                 break;
             }
         } catch (Exception e) {
-            writer.write("The URL must have a \"method\" parameter! \n\n Possible parameters are:\n create (with name&lastname) \n update (with id(needed!) and name and lastname(you can choose both, or just one of them)\n delete (with id) \n allNullTeachers (deletes all Teachers that are null) \n allTeachers (shows all Teachers)");
+            writer.write("The URL must have a \"method\" parameter! \n\n" +
+                    "Possible parameters are:\n create (with name&lastname) \n" +
+                    "update (with id(needed!) and name and lastname(you can choose both, or just one of them)\n" +
+                    "delete (with id) \n" +
+                    "allNullTeachers (deletes all Teachers that are null) \n" +
+                    "allTeachers (shows all Teachers) \n" +
+                    "search1 (with lastname (only prename of the teacher))");
         }
     }
 }

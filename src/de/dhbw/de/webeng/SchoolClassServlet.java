@@ -1,9 +1,6 @@
 package de.dhbw.de.webeng;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -13,8 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.appengine.api.datastore.KeyFactory;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andreas on 24.10.2015.
@@ -43,27 +42,27 @@ public class SchoolClassServlet extends HttpServlet {
 
                     String teachername = req.getParameter("teachername");
                     int year = Integer.parseInt(req.getParameter("year"));
-                    SchoolClass shoolclass = new SchoolClass(teachername,year);
+                    SchoolClass schoolclass = new SchoolClass(teachername, year);
 
                     EntityManager em = EMF.createEntityManager();
-                    em.persist(shoolclass);
+                    em.persist(schoolclass);
                     em.close();
-                    writer.write("new Shoolclass " + teachername +  " in the year " + String.valueOf(year) + " (" + shoolclass.getId()+ ").");
+                    writer.write("new Schoolclass " + teachername + " in the year " + String.valueOf(year) + " (" + schoolclass.getId() + ").");
                 }
                 break;
                 case "update": {
                     String id = req.getParameter("id");
 
                     EntityManager em = EMF.createEntityManager();
-                    SchoolClass shoolclass = em.find(SchoolClass.class, KeyFactory.createKey("Shoolclass", Long.parseLong(id)));
+                    SchoolClass schoolClass = em.find(SchoolClass.class, KeyFactory.createKey("Schoolclass", Long.parseLong(id)));
 
-                    writer.write("found shoolclass " + shoolclass.getTeachername() + " ("+ shoolclass.getId() + ").");
+                    writer.write("found schoolClass " + schoolClass.getTeachername() + " (" + schoolClass.getId() + ").");
 
-                    shoolclass.setTeachername(req.getParameter("teachername"));
-                    shoolclass.setYear(Integer.parseInt(req.getParameter("year")));
-                    writer.write("renamed shoolclass to " + shoolclass.getTeachername() + " in year "+ shoolclass.getYear() +  ".");
+                    schoolClass.setTeachername(req.getParameter("teachername"));
+                    schoolClass.setYear(Integer.parseInt(req.getParameter("year")));
+                    writer.write("renamed schoolClass to " + schoolClass.getTeachername() + " in year " + schoolClass.getYear() + ".");
 
-                    em.merge(shoolclass);
+                    em.merge(schoolClass);
                     em.close();
                 }
                 break;
@@ -71,12 +70,12 @@ public class SchoolClassServlet extends HttpServlet {
                     String id = req.getParameter("id");
 
                     EntityManager em = EMF.createEntityManager();
-                    SchoolClass shoolclass = em.find(SchoolClass.class, KeyFactory.createKey("Shoolclass", Long.parseLong(id)));
-                    writer.write("found shoolclass " + shoolclass.getTeachername() + " ("
-                            + shoolclass.getId() + ").");
+                    SchoolClass schoolClass = em.find(SchoolClass.class, KeyFactory.createKey("Schoolclass", Long.parseLong(id)));
+                    writer.write("found schoolClass " + schoolClass.getTeachername() + " ("
+                            + schoolClass.getId() + ").");
 
-                    em.remove(shoolclass);
-                    writer.write("removed shoolclass " + shoolclass.getTeachername() + ".");
+                    em.remove(schoolClass);
+                    writer.write("removed schoolClass " + schoolClass.getTeachername() + ".");
                     em.close();
                 }
                 break;
@@ -85,14 +84,14 @@ public class SchoolClassServlet extends HttpServlet {
 
                     EntityManager em = EMF.createEntityManager();
                     Query query = em
-                            .createQuery("SELECT s FROM Shoolclass s WHERE s.name='" + searchName + ":");
+                            .createQuery("SELECT s FROM SchoolClass s WHERE s.name='" + searchName + ":");
                     try {
-                        SchoolClass shoolclass = (SchoolClass) query.getSingleResult();
-                        writer.write("found shoolclass " + shoolclass.getTeachername() + " (" + shoolclass.getId() + ").");
+                        SchoolClass schoolClass = (SchoolClass) query.getSingleResult();
+                        writer.write("found schoolclass " + schoolClass.getTeachername() + " (" + schoolClass.getId() + ").");
                     } catch (NoResultException e) {
-                        writer.write("shoolclass " + searchName + " not found.");
+                        writer.write("schoolclass " + searchName + " not found.");
                     } catch (NonUniqueResultException e) {
-                        writer.write("too many shoolclasses found.");
+                        writer.write("too many schoolclasses found.");
                     }
                     em.close();
                 }
@@ -109,11 +108,11 @@ public class SchoolClassServlet extends HttpServlet {
                     @SuppressWarnings("unchecked")
                     List<SchoolClass> list = (List<SchoolClass>) query.getResultList();
 
-                    writer.write("\nfound " + list.size() + " shoolclasses.");
+                    writer.write("\nfound " + list.size() + " schoolclasses.");
 
-                    for (SchoolClass shoolclass : list) {
-                        writer.write("\nfound shoolclass " + shoolclass.getTeachername() + " ("
-                                + shoolclass.getId() + ").");
+                    for (SchoolClass schoolClass : list) {
+                        writer.write("\nfound schoolclass " + schoolClass.getTeachername() + " ("
+                                + schoolClass.getId() + ").");
                     }
 
                     em.close();
@@ -131,11 +130,11 @@ public class SchoolClassServlet extends HttpServlet {
                     @SuppressWarnings("unchecked")
                     List<SchoolClass> list = (List<SchoolClass>) query.getResultList();
 
-                    writer.write("\nfound " + list.size() + " shoolclasses.");
+                    writer.write("\nfound " + list.size() + " schoolclasses.");
 
-                    for (SchoolClass shoolclass : list) {
-                        writer.write("\nfound shoolclass " + shoolclass.getTeachername() + " ("
-                                + shoolclass.getId() + ").");
+                    for (SchoolClass schoolClass : list) {
+                        writer.write("\nfound schoolclass " + schoolClass.getTeachername() + " ("
+                                + schoolClass.getId() + ").");
                     }
 
                     em.close();
@@ -153,11 +152,11 @@ public class SchoolClassServlet extends HttpServlet {
                     @SuppressWarnings("unchecked")
                     List<SchoolClass> list = (List<SchoolClass>) query.getResultList();
 
-                    writer.write("\nfound " + list.size() + " shoolclasses.");
+                    writer.write("\nfound " + list.size() + " schoolclasses.");
 
-                    for (SchoolClass shoolclass : list) {
-                        writer.write("\nfound shoolclass " + shoolclass.getTeachername() + " ("
-                                + shoolclass.getId() + ").");
+                    for (SchoolClass schoolClass : list) {
+                        writer.write("\nfound schoolclass " + schoolClass.getTeachername() + " ("
+                                + schoolClass.getId() + ").");
                     }
 
                     em.close();
@@ -172,17 +171,17 @@ public class SchoolClassServlet extends HttpServlet {
                     @SuppressWarnings("unchecked")
                     List<SchoolClass> list = (List<SchoolClass>) query.getResultList();
 
-                    writer.write("\nfound " + list.size() + " shoolclasses.");
+                    writer.write("\nfound " + list.size() + " schoolclasses.");
 
-                    for (SchoolClass shoolclass : list) {
-                        writer.write("\nfound shoolclass "  +shoolclass.getTeachername()+" in year " +shoolclass.getYear() + " ("
-                                + shoolclass.getId() + ").");
+                    for (SchoolClass schoolClass : list) {
+                        writer.write("\nfound schoolclass " + schoolClass.getTeachername() + " in year " + schoolClass.getYear() + " ("
+                                + schoolClass.getId() + ").");
                     }
 
                     em.close();
                 }
                 break;
-                case "allNullShoolclasses": {
+                case "allNullSchoolclasses": {
                     EntityManager em = EMF.createEntityManager();
                     String s = "SELECT t FROM SchoolClass t WHERE t.name IS NULL";
                     writer.write("query " + s);
@@ -191,30 +190,35 @@ public class SchoolClassServlet extends HttpServlet {
                     @SuppressWarnings("unchecked")
                     List<SchoolClass> list = (List<SchoolClass>) query.getResultList();
 
-                    writer.write("\nfound " + list.size() + " shoolclasses.");
+                    writer.write("\nfound " + list.size() + " schoolclasses.");
 
                     List<Long> removeList = new ArrayList<Long>();
-                    for (SchoolClass shoolclass : list) {
-                        writer.write("\nfound shoolclass " + shoolclass.getTeachername() + " ("
-                                + shoolclass.getId() + ").");
-                        removeList.add(shoolclass.getId());
+                    for (SchoolClass schoolClass : list) {
+                        writer.write("\nfound schoolclass " + schoolClass.getTeachername() + " ("
+                                + schoolClass.getId() + ").");
+                        removeList.add(schoolClass.getId());
                     }
                     em.close();
 
                     for (Long id : removeList) {
                         em = EMF.createEntityManager();
-                        SchoolClass shoolclass = em.find(SchoolClass.class,
-                                KeyFactory.createKey("Shoolclass", id));
-                        writer.write("\nremove shoolclass " + shoolclass.getTeachername() + " ("
-                                + shoolclass.getId() + ").");
-                        em.remove(shoolclass);
+                        SchoolClass schoolClass = em.find(SchoolClass.class,
+                                KeyFactory.createKey("Schoolclass", id));
+                        writer.write("\nremove schoolclass " + schoolClass.getTeachername() + " ("
+                                + schoolClass.getId() + ").");
+                        em.remove(schoolClass);
                         em.close();
                     }
                 }
                 break;
             }
         } catch (Exception e) {
-            writer.write("The URL must have a \"method\" parameter! \n\n Possible parameters are:\n create (with teachername & year) \n update (with id(needed!) and teachername/year(you can choose two/just one)\n delete (with id) \n allNullShoolclasses (deletes all Shoolclasses that are null) \n allShoolclasses (shows all Shoolclasses)");
+            writer.write("The URL must have a \"method\" parameter! \n\n" +
+                    "Possible parameters are:\n create (with teachername & year) \n" +
+                    "update (with id(needed!) and teachername/year(you can choose two/just one)\n" +
+                    "delete (with id) \n" +
+                    "allNullSchoolclasses (deletes all Schoolclasses that are null) \n" +
+                    "allSchoolclasses (shows all Schoolclasses)");
         }
     }
 }

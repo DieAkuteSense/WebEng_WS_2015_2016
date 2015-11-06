@@ -3,99 +3,105 @@
 <html>
 <head>
     <title>Klasse anlegen</title>
-    <link rel="stylesheet" type="text/css" href="nav.css" />
-    <link rel="stylesheet" type="text/css" href="newandchangeclass.css" />
-    <meta charset="utf-8" />
-    <meta lang="de" />
+    <link rel="stylesheet" type="text/css" href="nav.css"/>
+    <link rel="stylesheet" type="text/css" href="newandchangeclass.css"/>
+    <meta charset="utf-8"/>
+    <meta lang="de"/>
     <script src="angular.js"></script>
     <script src="jquery.js"></script>
     <script src="ngStorage.js"></script>
-    
+
     <script>
         angular.module("newClass", ["ngStorage"])
-        .controller("Controller", function($localStorage, $filter) {
-            var newClassCtrl = this;
-            
-            newClassCtrl.classes = $localStorage.classes;
-            newClassCtrl.teachers = $localStorage.teachers;
-            
-            newClassCtrl.addClass = function() {
-                newClassCtrl.classes.push({classNr:newClassCtrl.newClassNr, role:'classNr'});
-                $localStorage.classes = newClassCtrl.classes;
-                newClassCtrl.teachers.push({name:newClassCtrl.newName, prename:newClassCtrl.newPrename, role:'teacher', classNr:newClassCtrl.newClassNr});
-                $localStorage.teachers = newClassCtrl.teachers;
-            }
-        });
+                .controller("Controller", function ($localStorage, $filter) {
+                    var newClassCtrl = this;
+
+                    newClassCtrl.classes = $localStorage.classes;
+                    newClassCtrl.teachers = $localStorage.teachers;
+
+                    newClassCtrl.addClass = function () {
+                        newClassCtrl.classes.push({classNr: newClassCtrl.newClassNr, role: 'classNr'});
+                        $localStorage.classes = newClassCtrl.classes;
+                        newClassCtrl.teachers.push({
+                            name: newClassCtrl.newName,
+                            prename: newClassCtrl.newPrename,
+                            role: 'teacher',
+                            classNr: newClassCtrl.newClassNr
+                        });
+                        $localStorage.teachers = newClassCtrl.teachers;
+                    }
+                });
     </script>
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <li>
-                <form id="navtitle">Klassenbuch</form>
-            </li>
-            <li>
-                <a href="mainmenu.html">Hauptmenü</a>
-            </li>
-            <li>
-                <a href="#">Schüler</a>
-                <ul>
-                    <li><a href="showpupil.html">Anzeigen</a></li>
-                    <!--
-                    <li><a href="#">Bearbeiten</a></li>
-                    <li><a href="#">L&ouml;schen</a></li>
-                    -->
-                    <li><a href="newpupil.html">Anlegen</a></li>
-                </ul>
-            </li> 
-           <li>
-                <a href="#">Lehrer</a>
-                <ul>
-                    <li><a href="showteacher.html">Anzeigen</a></li>
-                    <!--
-                    <li><a href="#">Bearbeiten</a></li>
-                    <li><a href="#">L&ouml;schen</a></li>
-                    -->
-                    <li><a href="newteacher.html">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Klassen</a>
-                <ul>
-                    <li><a href="showclass.html">Anzeigen</a></li>
-                    <!--
-                    <li><a href="#">Bearbeiten</a></li>
-                    <li><a href="#">L&ouml;schen</a></li>
-                    -->
-                    <li><a href="#">Anlegen</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="logout.html">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    <div ng-app="newClass" ng-controller="Controller as newClassCtrl">
-        <h1>Klasse anlegen</h1>
-        <form ng-submit="newClassCtrl.addClass()">
-            <input ng-model="newClassCtrl.newClassNr" type="number" min="1" max="13" placeholder="Klasse" required />
-            <input ng-model="newClassCtrl.newName" type="text" placeholder="Name des Klassenlehrers" required />
-            <input ng-model="newClassCtrl.newPrename" type="text" placeholder="Vorname des Klassenlehrers" required />
-            <input class="btn-primary" type="submit" value="Speichern" /> 
-        </form>
+<nav>
+    <ul>
+        <li>
+            <form id="navtitle">Klassenbuch</form>
+        </li>
+        <li>
+            <a href="mainmenu.html">Hauptmenü</a>
+        </li>
+        <li>
+            <a href="#">Schüler</a>
+            <ul>
+                <li><a href="showpupil.html">Anzeigen</a></li>
+                <!--
+                <li><a href="#">Bearbeiten</a></li>
+                <li><a href="#">L&ouml;schen</a></li>
+                -->
+                <li><a href="newpupil.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Lehrer</a>
+            <ul>
+                <li><a href="showteacher.html">Anzeigen</a></li>
+                <!--
+                <li><a href="#">Bearbeiten</a></li>
+                <li><a href="#">L&ouml;schen</a></li>
+                -->
+                <li><a href="newteacher.html">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Klassen</a>
+            <ul>
+                <li><a href="showclass.html">Anzeigen</a></li>
+                <!--
+                <li><a href="#">Bearbeiten</a></li>
+                <li><a href="#">L&ouml;schen</a></li>
+                -->
+                <li><a href="#">Anlegen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="logout.html">Logout</a>
+        </li>
+    </ul>
+</nav>
+<div ng-app="newClass" ng-controller="Controller as newClassCtrl">
+    <h1>Klasse anlegen</h1>
 
-        
-        <div class="button">
-            <a href="mainmenu.html">
-                <button type="button">Anlegen</button>
-            </a>
-        </div>
-        <div class="button">
-            <a href="mainmenu.html">
-                <button type="button">Abbrechen</button>
-            </a>
-        </div>
+    <form ng-submit="newClassCtrl.addClass()">
+        <input ng-model="newClassCtrl.newClassNr" type="number" min="1" max="13" placeholder="Klasse" required/>
+        <input ng-model="newClassCtrl.newName" type="text" placeholder="Name des Klassenlehrers" required/>
+        <input ng-model="newClassCtrl.newPrename" type="text" placeholder="Vorname des Klassenlehrers" required/>
+        <input class="btn-primary" type="submit" value="Speichern"/>
+    </form>
+
+
+    <div class="button">
+        <a href="mainmenu.html">
+            <button type="button">Anlegen</button>
+        </a>
     </div>
+    <div class="button">
+        <a href="mainmenu.html">
+            <button type="button">Abbrechen</button>
+        </a>
+    </div>
+</div>
 </body>
 </html>
