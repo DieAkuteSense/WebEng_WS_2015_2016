@@ -97,13 +97,15 @@
 </div>
 <div id="description">
     <h1>Lehrer anlegen</h1>
-
-    <form action="/teacher" method="GET"> <!-- ng-submit="newTeacherCtrl.addTeacher()" -->
-        <input type="text" placeholder="Nachname" name="lastName" required /> <!-- ng-model="newTeacherCtrl.newName" -->
-        <input type="text" placeholder="Vorname" name="name" required /><br/><br/><!-- ng-model="newTeacherCtrl.newPrename" -->
-<!--    <select ng-model="newTeacherCtrl.newClassNr">
-            <option ng-repeat="x in newTeacherCtrl.classes">{{x.classNr}}</option>
-        </select>-->
+    <!-- ng-submit="newTeacherCtrl.addTeacher()"
+    ng-model="newTeacherCtrl.newName"
+    ng-model="newTeacherCtrl.newPrename"
+    <select ng-model="newTeacherCtrl.newClassNr">
+        <option ng-repeat="x in newTeacherCtrl.classes">{{x.classNr}}</option>
+    </select> -->
+    <form action="/teacher" method="POST">
+        <input type="text" placeholder="Nachname" name="lastName" required />
+        <input type="text" placeholder="Vorname" name="name" required /><br/><br/>
         <input type="submit" name="method" value="create" />
     </form>
     <br/>

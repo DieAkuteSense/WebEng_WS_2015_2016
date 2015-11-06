@@ -18,8 +18,6 @@ import java.util.List;
 
 /**
  * Created by Andreas on 24.10.2015.
- *
- * TODO: Umleitung von Servlet Seite auf vorherige Seite
  */
 
 
@@ -48,7 +46,8 @@ public class StudentServlet extends HttpServlet{
                     EntityManager em = EMF.createEntityManager();
                     em.persist(student);
                     em.close();
-                    writer.write("new Student " + name + " " + lastName + " in the year " + student.getYear() + " (" + student.getId() + ").");
+                    response.sendRedirect(response.encodeRedirectURL("http://localhost:8080/klassenbuch/mainmenu.html"));
+                    writer.write("Neuer Schüler " + name + " " + lastName + " mit der ID " + student.getId() + " angelegt.");
                 }
                 break;
                 case "update": {

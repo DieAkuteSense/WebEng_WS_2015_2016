@@ -23,41 +23,41 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class TeacherServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        resp.setContentType("text/text"); // resp.setContentType("application/json");
-        resp.setCharacterEncoding("utf-8");
-        resp.setHeader("Cache-Control", "no-cache, must-revalidate");
-        resp.setHeader("Access-Control-Allow-Origin", "*");
+        response.setContentType("text/text"); // response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("Cache-Control", "no-cache, must-revalidate");
+        response.setHeader("Access-Control-Allow-Origin", "*");
 
-        String method = req.getParameter("method");
+        String method = request.getParameter("method");
 
-        PrintWriter writer = resp.getWriter();
+        PrintWriter writer = response.getWriter();
         try {
             switch (method) {
                 case "create": {
 
-                    String name = req.getParameter("name");
-                    String lastName = req.getParameter("lastName");
+                    String name = request.getParameter("name");
+                    String lastName = request.getParameter("lastName");
                     Teacher teacher = new Teacher(name, lastName);
-
                     EntityManager em = EMF.createEntityManager();
                     em.persist(teacher);
                     em.close();
+                    response.sendRedirect(response.encodeRedirectURL("http://localhost:8080/klassenbuch/mainmenu.html"));
                     writer.write("Neuer Lehrer " + name + " " + lastName + " mit der ID " + teacher.getId() + " angelegt.");
                 }
                 break;
                 case "update": {
-                    String id = req.getParameter("id");
+                    String id = request.getParameter("id");
 
                     EntityManager em = EMF.createEntityManager();
                     Teacher teacher = em.find(Teacher.class, KeyFactory.createKey("Teacher", Long.parseLong(id)));
 
                     writer.write("found teacher " + teacher.getName() + " " + teacher.getLastname() + " (" + teacher.getId() + ").");
 
-                    teacher.setName(req.getParameter("name"));
-                    teacher.setLastname(req.getParameter("lastName"));
+                    teacher.setName(request.getParameter("name"));
+                    teacher.setLastname(request.getParameter("lastName"));
                     writer.write("Lehrer umbenannt in " + teacher.getName() + " " + teacher.getLastname() + ".");
 
                     em.merge(teacher);
@@ -65,7 +65,7 @@ public class TeacherServlet extends HttpServlet {
                 }
                 break;
                 case "remove": {
-                    String id = req.getParameter("id");
+                    String id = request.getParameter("id");
 
                     EntityManager em = EMF.createEntityManager();
                     Teacher teacher = em.find(Teacher.class, KeyFactory.createKey("Teacher", Long.parseLong(id)));
@@ -77,7 +77,7 @@ public class TeacherServlet extends HttpServlet {
                 }
                 break;
                 case "search1": {
-                    String searchName = req.getParameter("searchName");
+                    String searchName = request.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
                     Query query = em.createQuery("SELECT t FROM Teacher t WHERE t.name='" + searchName + "'");
@@ -93,7 +93,7 @@ public class TeacherServlet extends HttpServlet {
                 }
                 break;
                 case "search": {
-                    String searchName = req.getParameter("searchName");
+                    String searchName = request.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
                     String s = "SELECT t FROM Teacher t WHERE t.name='" + searchName + "'";
@@ -113,7 +113,7 @@ public class TeacherServlet extends HttpServlet {
                 }
                 break;
                 case "search2": {
-                    String searchName = req.getParameter("searchName");
+                    String searchName = request.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
                     String s = "SELECT t FROM Teacher t WHERE t.name=:searchName";
@@ -134,7 +134,7 @@ public class TeacherServlet extends HttpServlet {
                 }
                 break;
                 case "search3": {
-                    String searchName = req.getParameter("searchName");
+                    String searchName = request.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
                     String s = "SELECT t FROM Teacher t WHERE t.name LIKE :searchName";
