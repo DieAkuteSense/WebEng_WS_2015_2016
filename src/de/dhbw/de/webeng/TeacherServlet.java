@@ -72,7 +72,7 @@ public class TeacherServlet extends HttpServlet {
                     writer.write("Lehrer " + teacher.getName() + " (ID: " + teacher.getId() + ") gefunden.");
 
                     em.remove(teacher);
-                    writer.write(" Lehrer " + teacher.getName() + " " + teacher.getLastname() + " gelöscht.");
+                    writer.write(" Lehrer " + teacher.getName() + " " + teacher.getLastname() + " gelï¿½scht.");
                     em.close();
                 }
                 break;
@@ -194,7 +194,7 @@ public class TeacherServlet extends HttpServlet {
                         em = EMF.createEntityManager();
                         Teacher teacher = em.find(Teacher.class,
                                 KeyFactory.createKey("Teacher", id));
-                        writer.write("\nLehrer " + teacher.getName() + " (ID: " + teacher.getId() + ") gelöscht.");
+                        writer.write("\nLehrer " + teacher.getName() + " (ID: " + teacher.getId() + ") gelï¿½scht.");
                         em.remove(teacher);
                         em.close();
                     }

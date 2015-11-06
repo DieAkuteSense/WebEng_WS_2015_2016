@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,57 +18,58 @@ import java.util.List;
 
 /**
  * Created by Andreas on 24.10.2015.
+ *
+ * TODO: Umleitung von Servlet Seite auf vorherige Seite
  */
 
 
+
 @SuppressWarnings("serial")
-public class StudentServlet extends HttpServlet {
+public class StudentServlet extends HttpServlet{
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        resp.setContentType("text/text"); // resp.setContentType("application/json");
-        resp.setCharacterEncoding("utf-8");
-        resp.setHeader("Cache-Control", "no-cache, must-revalidate");
-        resp.setHeader("Access-Control-Allow-Origin", "*");
+        response.setContentType("text/text"); // response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("Cache-Control", "no-cache, must-revalidate");
+        response.setHeader("Access-Control-Allow-Origin", "*");
 
-        String method = req.getParameter("method");
+        String method = request.getParameter("method");
 
-        PrintWriter writer = resp.getWriter();
+        PrintWriter writer = response.getWriter();
         try {
             switch (method) {
                 case "create": {
-
-                    String name = req.getParameter("name");
-                    String lastname = req.getParameter("lastname");
-                    int year = Integer.parseInt(req.getParameter("year"));
-                    Student student = new Student(name, lastname, year);
-
+                    String name = request.getParameter("name");
+                    String lastName = request.getParameter("lastName");
+                    int year = Integer.parseInt(request.getParameter("year"));
+                    Student student = new Student(name, lastName, year);
                     EntityManager em = EMF.createEntityManager();
                     em.persist(student);
                     em.close();
-                    writer.write("new Student " + name + " " + lastname + " in the year " + String.valueOf(year) + " (" + student.getId() + ").");
+                    writer.write("new Student " + name + " " + lastName + " in the year " + student.getYear() + " (" + student.getId() + ").");
                 }
                 break;
                 case "update": {
-                    String id = req.getParameter("id");
+                    String id = request.getParameter("id");
 
                     EntityManager em = EMF.createEntityManager();
                     Student student = em.find(Student.class, KeyFactory.createKey("Student", Long.parseLong(id)));
 
                     writer.write("found student " + student.getName() + " (" + student.getId() + ").");
 
-                    student.setName(req.getParameter("name"));
-                    student.setLastname(req.getParameter("lastname"));
-                    student.setYear(Integer.parseInt(req.getParameter("year")));
-                    writer.write("renamed student to " + student.getName() + student.getLastname() + " in year " + student.getYear() + ".");
+                    student.setName(request.getParameter("name"));
+                    student.setLastName(request.getParameter("lastname"));
+                    student.setYear(Integer.parseInt(request.getParameter("year")));
+                    writer.write("renamed student to " + student.getName() + student.getLastName() + " in year " + student.getYear() + ".");
 
                     em.merge(student);
                     em.close();
                 }
                 break;
                 case "remove": {
-                    String id = req.getParameter("id");
+                    String id = request.getParameter("id");
 
                     EntityManager em = EMF.createEntityManager();
                     Student student = em.find(Student.class, KeyFactory.createKey("Student", Long.parseLong(id)));
@@ -79,7 +81,7 @@ public class StudentServlet extends HttpServlet {
                 }
                 break;
                 case "search1": {
-                    String searchName = req.getParameter("searchName");
+                    String searchName = request.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
                     Query query = em.createQuery("SELECT s FROM Student s WHERE s.name='" + searchName + "'");
@@ -96,7 +98,7 @@ public class StudentServlet extends HttpServlet {
                 }
                 break;
                 case "search": {
-                    String searchName = req.getParameter("searchName");
+                    String searchName = request.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
                     String s = "SELECT s FROM Student s WHERE s.name='" + searchName + "'";
@@ -116,7 +118,7 @@ public class StudentServlet extends HttpServlet {
                 }
                 break;
                 case "search2": {
-                    String searchName = req.getParameter("searchName");
+                    String searchName = request.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
                     String s = "SELECT s FROM Student s WHERE s.name=:searchName";
@@ -137,7 +139,7 @@ public class StudentServlet extends HttpServlet {
                 }
                 break;
                 case "search3": {
-                    String searchName = req.getParameter("searchName");
+                    String searchName = request.getParameter("searchName");
 
                     EntityManager em = EMF.createEntityManager();
                     String s = "SELECT s FROM Student s WHERE s.name LIKE :searchName";
@@ -169,7 +171,7 @@ public class StudentServlet extends HttpServlet {
                     writer.write("\nfound " + list.size() + " students.");
 
                     for (Student student : list) {
-                        writer.write("\nfound student " + student.getName() + student.getLastname() + student.getYear() + " (" + student.getId() + ").");
+                        writer.write("\nfound student " + student.getName() + student.getLastName() + student.getYear() + " (" + student.getId() + ").");
                     }
 
                     em.close();
@@ -206,6 +208,7 @@ public class StudentServlet extends HttpServlet {
                 }
                 break;
             }
+
         } catch (Exception e) {
             writer.write("The URL must have a \"method\" parameter! \n\n" +
                     "Possible parameters are:\n create (with name & lastname & year) \n" +

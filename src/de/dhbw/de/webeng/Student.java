@@ -15,7 +15,7 @@ public class Student {
 
     private Key key;
     private String name;
-    private String lastname;
+    private String lastName;
     private int year;
 
     @Transient
@@ -24,34 +24,39 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name2, String lastname2, int year2) {
-        name = name2;
-        lastname = lastname2;
-        year = year2;
+    public Student(String name, String lastName, int year) {
+        this.name = name;
+        this.lastName = lastName;
+        this.year = year;
+    }
+
+    public Student(String name, String lastName) {
+        this.name = name;
+        this.lastName = lastName;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name2) {
-        name = name2;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String name2) {
-        lastname = name2;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getYear() {
         return year;
     }
 
-    public void setYear(int year2) {
-        year = year2;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public long getId() {

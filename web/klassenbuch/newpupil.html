@@ -98,14 +98,15 @@
 <div id="description">
     <h1>Schüler anlegen</h1>
 
-    <form ng-submit="newPupilCtrl.addPupil()">
-        <input type="text" placeholder="Nachname" ng-model="newPupilCtrl.newName" required/>
-        <input type="text" placeholder="Vorname" ng-model="newPupilCtrl.newPrename"/><br/><br/>
-        <select ng-model="newPupilCtrl.newClassNr">
+    <for action="/student" method="post"> <!-- ng-submit="newPupilCtrl.addPupil()" -->
+        Nachname: <input type="text" placeholder="Nachname" name="lastName" required/><br /> <!-- ng-model="newPupilCtrl.newName" -->
+        Vorname: <input type="text" placeholder="Vorname" name="name" required /><br /> <!-- ng-model="newPupilCtrl.newPrename" -->
+        Schüler seit: <input type="number" placeholder="YYYY" name="year" maxlength="4" max="2016" min="1990" required /><br />
+<!--        <select ng-model="newPupilCtrl.newClassNr">
             <option ng-repeat="x in newPupilCtrl.classes">{{x.classNr}}</option>
-        </select>
-        <input class="btn-primary" type="submit" value="Speichern"/>
-    </form>
+        </select>-->
+        <input type="submit" name="method" value="create" /> <!-- class="btn-primary" -->
+    </for>
     <br/>
     <br/>
 
